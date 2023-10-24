@@ -23,9 +23,9 @@ const signIn = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-screen ">
-      <div className="h-screen lg:bg-custom-gray px-4">
-        <form onSubmit={handleSubmit(onSubmit)} className="">
+    <div className="flex items-center justify-center min-h-screen bg-[#F5F5F5]">
+      <div className="px-4 ">
+        <form onSubmit={handleSubmit(onSubmit)} className="font-abel text-black">
           <div className="flex flex-col items-center justify-center ">
             <Image
               src={logo}
@@ -34,12 +34,12 @@ const signIn = () => {
               height={100}
               className="mt-16 mb-3 lg:hidden"
             />
-            <div className="flex flex-col items-center text-center text-4xl  text-black ">
+            <div className="flex flex-col items-center text-center text-4xl text-black pb-8">
               <span className="font-kronaOne">OKR</span>
               <span className="font-kronaOne">GENIUS</span>
             </div>
           </div>
-          <div className=" text-black text-x font-abel ">
+          <div className="  text-x font-abel ">
             <label htmlFor="email" className="form-label">
               Email
             </label>
@@ -61,7 +61,7 @@ const signIn = () => {
                     {...field}
                     ref={inputRef}
                     type="email"
-                    className={`w-full border-2 border-gray-300 p-1 rounded custom-input ${
+                    className={`w-full border-2 border-[#524e4e] bg[#000000] p-1 rounded custom-input ${
                       fieldState.error ? "is-invalid" : ""
                     }`}
                     maxLength="40"
@@ -87,7 +87,7 @@ const signIn = () => {
                 <input
                   {...field}
                   type="password"
-                  className="custom-input required w-full border-2 border-gray-300 p-1 rounded custom-input"
+                  className="custom-input required w-full border-2 border-[#524e4e]  p-1 rounded custom-input"
                   minLength="8"
                   maxLength="30"
                   required
@@ -95,29 +95,29 @@ const signIn = () => {
               )}
             />
           </div>
-          <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-center text-base">
+          <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-center text-base bg-[#D9D9D9] border-[#524e4e] ">
             <button type="submit" className="" >
               Iniciar sesión
             </button>
           </div>
-          <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-base">
+          <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-base bg-[#D9D9D9] border-[#CA2A2A]">
             <Image src={icongl} alt="google" width={25} height={25} className="ml-14" />
-            <button className="flex-grow text-center ">
+            <button className="flex-grow text-center text-[#CA2A2A] ">
               Inicia sesión con Google
             </button>
           </div>
           <div className="text-left mb-2 text-sm">
             <p>
             ¿No tienes cuenta?<span className="mr-2"></span>
-              <Link className="" href="/registration">
+              <Link className="text-[#01803C]" href="/registration">
                 Regístrate
               </Link>
             </p>
           </div>
-          <div className="text-left mb-6 text-sm">
+          <div className="text-left mb-14 text-sm">
             <p>
             ¿Olvidaste tu contraseña?<span className="mr-2"></span>
-              <Link className="" href="/registration">
+              <Link className="text-[#01803C]" href="/registration">
                 Recuperar contraseña
               </Link>
             </p>
