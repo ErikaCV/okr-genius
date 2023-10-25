@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Link from "next/link";
-import logo from "../assets/images/icon.webp";
-import icongl from "../assets/images/google-icon.webp";
+import logo from "@/assets/images/icon.webp";
+import icongl from "@/assets/images/google-icon.webp";
 import Image from "next/image";
 
-const signIn = () => {
-  const { handleSubmit, control } = useForm();
+const SignIn = () => {
+  const { handleSubmit } = useForm();
   const inputRef = useRef();
 
   const onSubmit = (data) => {
@@ -32,13 +32,13 @@ const signIn = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="font-abel text-black  md:bg-[#D9D9D9] md: min-h-screen"
         >
-          <div className="flex flex-col items-center justify-center md:hidden">
+          <div className="flex flex-col items-center justify-center  md:hidden">
             <Image
               src={logo}
               alt="logo"
               width={100}
               height={100}
-              className="mt-16 mb-3"
+              className="mt-7 mb-3"
             />
           </div>
           <div className="flex flex-col items-center text-center text-4xl text-black pb-8 md:pt-8">
@@ -70,12 +70,12 @@ const signIn = () => {
                 required
               />
             </div>
-            <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-center text-base bg-[#D9D9D9] border-[#524e4e] ">
-              <button type="submit" className="">
+            <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-center text-base bg-[#D9D9D9] border-[#524e4e] hover:bg-[#afaeae]">
+              <button type="submit" className="w-full">
                 Iniciar sesión
               </button>
             </div>
-            <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-base bg-[#D9D9D9] border-[#CA2A2A]">
+            <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-base bg-[#D9D9D9] border-[#CA2A2A] hover:bg-[#c97f7f] flex-grow text-center mr-8 text-[#CA2A2A] ">
               <Image
                 src={icongl}
                 alt="google"
@@ -83,9 +83,7 @@ const signIn = () => {
                 height={25}
                 className="ml-8"
               />
-              <button className="flex-grow text-center hover:bg-[#c97f7f] mr-8 text-[#CA2A2A]">
-                Inicia sesión con Google
-              </button>
+              <button className="w-full">Inicia sesión con Google</button>
             </div>
             <div className="text-left mb-2 text-sm">
               <p>
@@ -98,7 +96,7 @@ const signIn = () => {
             <div className="text-left mb-14 md:mb-2 text-sm">
               <p>
                 ¿Olvidaste tu contraseña?<span className="mr-2"></span>
-                <Link href={"/sign-up"} className="text-[#01803C]">
+                <Link href={"/password-recovery"} className="text-[#01803C]">
                   Recuperar contraseña
                 </Link>
               </p>
@@ -110,4 +108,4 @@ const signIn = () => {
   );
 };
 
-export default signIn;
+export default SignIn;

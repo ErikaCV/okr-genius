@@ -6,7 +6,7 @@ import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
 import Image from "next/image";
 
-const signUp = () => {
+const SignUp = () => {
   const { handleSubmit } = useForm();
   const inputRef = useRef();
 
@@ -113,8 +113,8 @@ const signUp = () => {
                 required
               />
             </div>
-            <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-base text-[#CA2A2A] bg-[#D9D9D9] border-[#CA2A2A] md:p-0 md:mb-1">
-              <button type="submit" className="">
+            <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-base text-[#CA2A2A] bg-[#D9D9D9] border-[#CA2A2A] hover:bg-[#c97f7f] md:p-0 md:mb-1">
+              <button type="submit" className="w-full">
                 Regístrate
               </button>
             </div>
@@ -130,7 +130,7 @@ const signUp = () => {
               <p>
                 ¿Olvidaste tu contraseña?<span className="mr-2"></span>
                 <Link className="text-[#01803C]" href="/resend-confirmation">
-                  Recuperar cotraseña
+                  Recuperar contraseña
                 </Link>
               </p>
             </div>
@@ -141,4 +141,4 @@ const signUp = () => {
   );
 };
 
-export default signUp;
+export default SignUp;
