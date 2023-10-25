@@ -19,9 +19,13 @@ module.exports = {
       },
       
       backgroundColor: {
-        'custom-gray': '#D9D9D9A8',
+        'custom-gray': '#D9D9D9',
+        
       },
+      colors: {
+        'custom-red': '#CA2A2A',
+      }
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }

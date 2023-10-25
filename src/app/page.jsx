@@ -13,7 +13,6 @@ const SignIn = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    // Aquí se agrega el código que se ejecuta cuando se envíe el formulario.
   };
 
   useEffect(() => {
