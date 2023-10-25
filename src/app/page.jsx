@@ -50,54 +50,24 @@ const signIn = () => {
               <label htmlFor="email" className="form-label">
                 Email
               </label>
-              <Controller
-                name="email"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: "Este campo es requerido",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                    message:
-                      "Dirección de correo inválida. Debe ser un formato @gmail.com o @hotmail.com",
-                  },
-                }}
-                render={({ field, fieldState }) => (
-                  <div>
-                    <input
-                      {...field}
-                      ref={inputRef}
-                      type="email"
-                      className="w-full border-2 border-[#524e4e] bg[#000000]  rounded" 
-                      maxLength="40"
-                      required
-                    />
-                    {fieldState.error && (
-                      <p className="text-danger">{fieldState.error.message}</p>
-                    )}
-                  </div>
-                )}
+              <input
+                ref={inputRef}
+                type="email"
+                className="w-full border-2 border-[#524e4e] bg[#000000]  rounded"
+                maxLength="40"
+                required
               />
             </div>
             <div className=" text-black text-x font-abel pb-4">
               <label htmlFor="password" className="form-label">
                 Contraseña
               </label>
-              <Controller
-                name="password"
-                control={control}
-                defaultValue=""
-                rules={{ required: true, maxLength: 30 }}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    type="password"
-                    className=" required w-full border-2 border-[#524e4e] rounded "
-                    minLength="8"
-                    maxLength="30"
-                    required
-                  />
-                )}
+              <input
+                type="password"
+                className=" required w-full border-2 border-[#524e4e] rounded "
+                minLength="8"
+                maxLength="30"
+                required
               />
             </div>
             <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-center text-base bg-[#D9D9D9] border-[#524e4e] ">
@@ -111,16 +81,16 @@ const signIn = () => {
                 alt="google"
                 width={25}
                 height={25}
-                className="ml-12"
+                className="ml-8"
               />
-              <button className="flex-grow text-center mr-8 text-[#CA2A2A] ">
+              <button className="flex-grow text-center hover:bg-[#c97f7f] mr-8 text-[#CA2A2A]">
                 Inicia sesión con Google
               </button>
             </div>
             <div className="text-left mb-2 text-sm">
               <p>
                 ¿No tienes cuenta?<span className="mr-2"></span>
-                <Link className="text-[#01803C]" href="/registration">
+                <Link href={"/sign-up"} className="text-[#01803C]">
                   Regístrate
                 </Link>
               </p>
@@ -128,7 +98,7 @@ const signIn = () => {
             <div className="text-left mb-14 md:mb-2 text-sm">
               <p>
                 ¿Olvidaste tu contraseña?<span className="mr-2"></span>
-                <Link className="text-[#01803C]" href="/registration">
+                <Link href={"/sign-up"} className="text-[#01803C]">
                   Recuperar contraseña
                 </Link>
               </p>
