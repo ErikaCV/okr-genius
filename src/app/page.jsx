@@ -1,14 +1,19 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
 import icongl from "@/assets/images/google-icon.webp";
 import Image from "next/image";
 
 const SignIn = () => {
-  const { handleSubmit } = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
   const inputRef = useRef();
 
   const onSubmit = (data) => {
@@ -46,28 +51,60 @@ const SignIn = () => {
           </div>
           <div className="md:mx-20">
             <div className="text-x font-abel">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                ref={inputRef}
-                type="email"
-                className="w-full border-2 border-[#524e4e] bg[#000000]  rounded"
-                maxLength="40"
-                required
+              <label htmlFor="email">Correo electrónico</label>
+              <Controller
+                name="email"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "El email es requerido",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message:
+                      "Dirección de correo inválida. Debe ser un formato email@ejemplo.com",
+                  },
+                }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="email"
+                    className={`style-input ${
+                      errors.email ? "is-invalid" : ""
+                    }`}
+                    maxLength="40"
+                    required
+                  />
+                )}
               />
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email.message}</div>
+              )}
             </div>
-            <div className=" text-black text-x font-abel pb-4">
-              <label htmlFor="password" className="form-label">
-                Contraseña
-              </label>
-              <input
-                type="password"
-                className=" required w-full border-2 border-[#524e4e] rounded "
-                minLength="8"
-                maxLength="30"
-                required
+            <div className="mb-4">
+              <label htmlFor="password">Contraseña</label>
+              <Controller
+                name="password"
+                control={control}
+                defaultValue=""
+                rules={{ required: true, minLength: 8, maxLength: 12 }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="password"
+                    className={`style-input ${
+                      errors.password ? "is-invalid" : ""
+                    }`}
+                    maxLength="40"
+                    required
+                  />
+                )}
               />
+              {errors.password && (
+                <div className="invalid-feedback">
+                  La contraseña es requerida y debe tener entre 8 y 12
+                  caracteres.
+                </div>
+              )}
             </div>
             <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-center text-base bg-[#D9D9D9] border-[#524e4e] hover:bg-[#afaeae]">
               <button type="submit" className="w-full">
