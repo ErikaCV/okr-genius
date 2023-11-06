@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
@@ -16,15 +16,32 @@ const SignUp = () => {
   } = useForm();
 
   const usernameRef = useRef();
-  const [isRegistered, setIsRegistered] = useState(false);
 
   useEffect(() => {
     usernameRef.current.focus();
   }, []);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    setIsRegistered(true);
+  const onSubmit = async (data) => {
+    const { username, email, password } = data;
+
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, username, password }),
+      });
+
+      if (response.ok) {
+        // Registro exitoso, puedes redireccionar o mostrar un mensaje aquí si lo deseas
+      } else {
+        // Manejar la respuesta no exitosa
+      }
+    } catch (error) {
+      console.error("Hubo un error al registrar al usuario", error);
+    }
+
     reset();
   };
 
@@ -123,7 +140,7 @@ const SignUp = () => {
                     className={`style-input ${
                       errors.password ? "is-invalid" : ""
                     }`}
-                    maxLength="12"
+                    maxLength="40"
                     required
                   />
                 )}
@@ -153,7 +170,7 @@ const SignUp = () => {
                     className={`style-input ${
                       errors.passwordConfirmation ? "is-invalid" : ""
                     }`}
-                    maxLength="12"
+                    maxLength="40"
                     required
                   />
                 )}
@@ -187,13 +204,10 @@ const SignUp = () => {
             </div>
           </div>
         </form>
+        
       </div>
     </div>
   );
 };
 
 export default SignUp;
-
-
-
-

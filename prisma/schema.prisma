@@ -11,13 +11,12 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  firstName String   @map("first_name")
-  lastName  String   @map("last_name")
-  password  String
-  prompts   Prompt[]
-  results   Result[]
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  username String   
+  password String
+  prompts  Prompt[]
+  results  Result[]
 
   @@map("user")
 }

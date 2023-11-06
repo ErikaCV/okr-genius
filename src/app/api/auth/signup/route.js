@@ -3,7 +3,7 @@ import { prisma } from "@/libs/prisma";
 import bcrypt from "bcryptjs";
 
 export async function POST(request) {
-  const { email, firstName, lastName, password } = await request.json();
+  const { email, username, password } = await request.json();
 
   if (password.length < 6) {
     return new Response(
@@ -40,8 +40,7 @@ export async function POST(request) {
   const newUser = await prisma.user.create({
     data: {
       email,
-      firstName,
-      lastName,
+      username,
       password: hashedPassword,
     },
   });
