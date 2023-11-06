@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
@@ -16,7 +16,6 @@ const SignUp = () => {
   } = useForm();
 
   const usernameRef = useRef();
-  const [isRegistered, setIsRegistered] = useState(false);
 
   useEffect(() => {
     usernameRef.current.focus();
@@ -24,7 +23,6 @@ const SignUp = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    setIsRegistered(true);
     reset();
   };
 
@@ -123,7 +121,7 @@ const SignUp = () => {
                     className={`style-input ${
                       errors.password ? "is-invalid" : ""
                     }`}
-                    maxLength="12"
+                    maxLength="40"
                     required
                   />
                 )}
@@ -153,7 +151,7 @@ const SignUp = () => {
                     className={`style-input ${
                       errors.passwordConfirmation ? "is-invalid" : ""
                     }`}
-                    maxLength="12"
+                    maxLength="40"
                     required
                   />
                 )}
