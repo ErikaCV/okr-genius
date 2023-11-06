@@ -8,6 +8,23 @@
   box-sizing: border-box;
   
 }
+
+@layer components {
+  .style-input {
+   @apply w-full border-2 border-[#524e4e]  md:px-3 md:py-1 rounded-md
+  }
+  .invalid-feedback {
+    @apply text-custom-red text-sm
+  }
+}
+
+
+
+
+
+
+
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

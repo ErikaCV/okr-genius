@@ -1,25 +1,34 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
+import React, { useRef, useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
 import Image from "next/image";
 
 const SignUp = () => {
-  const { handleSubmit } = useForm();
-  const inputRef = useRef();
+  const {
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const usernameRef = useRef();
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  useEffect(() => {
+    usernameRef.current.focus();
+  }, []);
 
   const onSubmit = (data) => {
     console.log(data);
-    // Aquí se agrega el código que se ejecuta cuando se envíe el formulario.
+    setIsRegistered(true);
+    reset();
   };
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
+  const password = watch("password");
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#F5F5F5] md:flex-row">
@@ -40,80 +49,122 @@ const SignUp = () => {
               className="mb-3"
             />
           </div>
-          <div className="flex flex-col items-center justify-center text-4xl text-black md:pt-2 md:text-3xl">
+          <div className="flex flex-col items-center justify-center text-4xl text-black md:mx-12 md:pt-12 md:text-3xl">
             <span className="font-kronaOne">OKR</span>
             <span className="font-kronaOne">GENIUS</span>
           </div>
-          <div className="md:mx-20">
-            <div className="text-x font-abel">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                ref={inputRef}
-                type="email"
-                className="w-full border-2 border-[#524e4e]"
-                maxLength="40"
-                required
+          <div className="md:mx-24 md:mt-12  text-x font-abel">
+            <div className="mb-4">
+              <label htmlFor="username">Nombre de usuario</label>
+              <Controller
+                name="username"
+                control={control}
+                defaultValue=""
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="text"
+                    ref={usernameRef}
+                    className={`style-input ${
+                      errors.username ? "is-invalid" : ""
+                    }`}
+                    maxLength="25"
+                    minLength="3"
+                    required
+                  />
+                )}
               />
+              {errors.username && (
+                <div className="invalid-feedback">Este campo es requerido.</div>
+              )}
             </div>
-            <div className="text-x font-abel">
-              <label htmlFor="confirmEmail" className="form-label">
-                Confirmar Email
-              </label>
-              <input
-                type="email"
-                className="w-full border-2 border-[#524e4e] rounded"
-                required
+            <div className="mb-4">
+              <label htmlFor="email">Correo electrónico</label>
+              <Controller
+                name="email"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "El email es requerido",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message:
+                      "Dirección de correo inválida. Debe ser un formato email@ejemplo.com",
+                  },
+                }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="email"
+                    className={`style-input ${
+                      errors.email ? "is-invalid" : ""
+                    }`}
+                    maxLength="40"
+                    required
+                  />
+                )}
               />
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email.message}</div>
+              )}
             </div>
-            <div className="flex justify-between gap-4">
-              <div className="text-x font-abel flex-1">
-                <label htmlFor="firstName" className="form-label">
-                  Nombre
-                </label>
-                <input
-                  type="text"
-                  className="w-full border-2 border-[#524e4e] rounded"
-                  required
-                />
-              </div>
-              <div className="text-x font-abel flex-1">
-                <label htmlFor="lastName" className="form-label">
-                  Apellido
-                </label>
-                <input
-                  type="text"
-                  className="w-full border-2 border-[#524e4e] rounded"
-                  required
-                />
-              </div>
-            </div>
-            <div className="text-black text-x font-abel">
-              <label htmlFor="password" className="form-label">
-                Contraseña
-              </label>
-              <input
-                type="password"
-                className="w-full border-2 border-[#524e4e] rounded"
-                minLength="8"
-                maxLength="30"
-                required
+            <div className="mb-4">
+              <label htmlFor="password">Contraseña</label>
+              <Controller
+                name="password"
+                control={control}
+                defaultValue=""
+                rules={{ required: true, minLength: 8, maxLength: 12 }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="password"
+                    className={`style-input ${
+                      errors.password ? "is-invalid" : ""
+                    }`}
+                    maxLength="12"
+                    required
+                  />
+                )}
               />
+              {errors.password && (
+                <div className="invalid-feedback">
+                  La contraseña es requerida y debe tener entre 8 y 12
+                  caracteres.
+                </div>
+              )}
             </div>
-            <div className="text-black text-x font-abel pb-4">
-              <label htmlFor="confirmPassword" className="form-label">
-                Confirmar Contraseña
-              </label>
-              <input
-                type="password"
-                className="w-full border-2 border-[#524e4e] rounded"
-                minLength="8"
-                maxLength="30"
-                required
+            <div className="mb-6">
+              <label htmlFor="passwordConfirmation">Confirmar Contraseña</label>
+              <Controller
+                name="passwordConfirmation"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: true,
+                  validate: (value) =>
+                    value === password || "Las contraseñas no coinciden",
+                }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="password"
+                    className={`style-input ${
+                      errors.passwordConfirmation ? "is-invalid" : ""
+                    }`}
+                    maxLength="12"
+                    required
+                  />
+                )}
               />
+              {errors.passwordConfirmation && (
+                <div className="invalid-feedback">
+                  {errors.passwordConfirmation.message}
+                </div>
+              )}
             </div>
-            <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-base text-[#CA2A2A] bg-[#D9D9D9] border-[#CA2A2A] hover:bg-[#c97f7f] md:p-0 md:mb-1">
+            <div className="flex items-center justify-center w-full border-2 p-2 rounded my-4 text-base text-[#CA2A2A] bg-[#D9D9D9] border-[#CA2A2A] hover:bg-[#c97f7f] md:p-0 md:mb-1  md:px-3 md:py-1">
               <button type="submit" className="w-full">
                 Regístrate
               </button>
@@ -142,3 +193,7 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+
+
+
