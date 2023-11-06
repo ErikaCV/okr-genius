@@ -6,6 +6,7 @@ import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
 import icongl from "@/assets/images/google-icon.webp";
 import Image from "next/image";
+import {signIn} from "next-auth/react"
 
 const SignIn = () => {
   const {
@@ -16,8 +17,13 @@ const SignIn = () => {
 
   const inputRef = useRef();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const response = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+    })
+    console.log(response)
+    console.log(data)
   };
 
   useEffect(() => {
