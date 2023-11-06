@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import React, { useRef, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
@@ -142,7 +141,6 @@ const SignUp = () => {
                       errors.password ? "is-invalid" : ""
                     }`}
                     maxLength="40"
-                    maxLength="40"
                     required
                   />
                 )}
@@ -172,7 +170,6 @@ const SignUp = () => {
                     className={`style-input ${
                       errors.passwordConfirmation ? "is-invalid" : ""
                     }`}
-                    maxLength="40"
                     maxLength="40"
                     required
                   />
