@@ -15,8 +15,8 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        const prisma = new PrismaClient();
         try {
-          const prisma = new PrismaClient();
           // Busca al usuario por email
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
@@ -39,7 +39,7 @@ export const authOptions = {
           }
 
           // Si las credenciales son válidas, retorna un objeto con la información del usuario
-          return { id: user.id, name: user.name, email: user.email };
+          return user
         } catch (e) {
           console.log(e);
           return null;
@@ -54,13 +54,13 @@ export const authOptions = {
   },
   callbacks: {
     jwt({ account, token, user, profile, session }) {
-      if (user) token.user = user;
-      console.log("JWT")
+      // if (user) token.user = user;
+      // console.log("JWT")
       return token;
     },
     sessions({ session, token }) {
-      session.user = token.user;
-      console.log("SESSIONS")
+      // session.user = token.user;
+      // console.log("SESSIONS")
       // No es necesario castear token.user a ningún tipo en JavaScript puro session.user = token.user as any
       return session;
     },

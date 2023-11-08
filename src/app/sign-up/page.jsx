@@ -1,10 +1,14 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+
 
 const SignUp = () => {
   const {
@@ -15,33 +19,57 @@ const SignUp = () => {
     reset,
   } = useForm();
 
+  const router = useRouter();
   const usernameRef = useRef();
+  const [apiError, setApiError] = useState('');
 
   useEffect(() => {
     usernameRef.current.focus();
   }, []);
 
   const onSubmit = async (data) => {
-    const { username, email, password } = data;
+  
 
     try {
-      const response = await fetch("/api/auth/signup", {
+      const { username, email, password } = data;
+      const response = await fetch("/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, username, password }),
       });
+      const responseData = await response.json()
 
-      if (response.ok) {
+      const res = await signIn('credentials', {
+        email: responseData.email,
+        password: data.password,
+        redirect: false,
+      })
+      
+
+      if (res.ok) {
+        setApiError('');
+        return router.push("/create-okr")
         // Registro exitoso, puedes redireccionar o mostrar un mensaje aquí si lo deseas
       } else {
-        // Manejar la respuesta no exitosa
+        const result = await res.json();
+        // Verificar el código de estado y mostrar el mensaje apropiado
+        if (res.status === 400 && result.message === "El email ya está en uso") {
+          setApiError('correo electrónico o contraseña inválida, por favor intenta nuevamente.');
+        } else if (res.status === 400 && result.message === "La contraseña es demasiado corta") {
+          setApiError('La contraseña es demasiado corta.');
+        } else {
+          // Para cualquier otro error no manejado específicamente, muestra este mensaje
+          setApiError('Ocurrió un error inesperado, por favor intenta de nuevo');
+        }
       }
     } catch (error) {
-      console.error("Hubo un error al registrar al usuario", error);
+      console.error('Hubo un error al registrar al usuario', error);
+      // Este es un error de red o ocurrió algo al intentar hacer el fetch
+      setApiError('Ocurrió un error en el servidor, por favor intenta de nuevo');
     }
-
+  
     reset();
   };
 
@@ -202,6 +230,9 @@ const SignUp = () => {
                 </Link>
               </p>
             </div>
+          </div>
+          <div>
+          {apiError && <p className="text-red-500 text-center mt-4 text-xl">{apiError}</p>} 
           </div>
         </form>
         

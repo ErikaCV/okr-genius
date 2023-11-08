@@ -7,6 +7,7 @@ import logo from "@/assets/images/icon.webp";
 import icongl from "@/assets/images/google-icon.webp";
 import Image from "next/image";
 import {signIn} from "next-auth/react"
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const {
@@ -15,16 +16,23 @@ const SignIn = () => {
     formState: { errors },
   } = useForm();
 
+  const router = useRouter();
   const inputRef = useRef();
 
   const onSubmit = async (data) => {
     const response = await signIn("credentials", {
       email: data.email,
       password: data.password,
+      redirect: false,
     })
     console.log(response)
     console.log(data)
+
+    if (response.ok) {
+      router.push("/create-okr")
+    }
   };
+
 
   useEffect(() => {
     if (inputRef.current) {
