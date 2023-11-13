@@ -1,4 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
@@ -32,14 +33,14 @@ export const authOptions = {
             credentials.password,
             user.password
           );
-            console.log(isValidPassword)
+          console.log(isValidPassword);
           // Si la contraseña no es válida, retorna null
           if (!isValidPassword) {
             return null;
           }
 
           // Si las credenciales son válidas, retorna un objeto con la información del usuario
-          return user
+          return user;
         } catch (e) {
           console.log(e);
           return null;
@@ -47,6 +48,10 @@ export const authOptions = {
           await prisma.$disconnect();
         }
       },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   pages: {

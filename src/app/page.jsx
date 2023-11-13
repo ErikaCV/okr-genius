@@ -6,7 +6,7 @@ import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
 import icongl from "@/assets/images/google-icon.webp";
 import Image from "next/image";
-import {signIn} from "next-auth/react"
+import { signIn , useSession } from "next-auth/react"
 import { useRouter } from "next/navigation";
 
 const SignIn = () => {
@@ -16,6 +16,7 @@ const SignIn = () => {
     formState: { errors },
   } = useForm();
 
+  const { data: session, status } = useSession();
   const router = useRouter();
   const inputRef = useRef();
 
@@ -26,13 +27,20 @@ const SignIn = () => {
       redirect: false,
     })
     console.log(response)
-    console.log(data)
+    // console.log(data)
 
     if (response.ok) {
       router.push("/create-okr")
     }
   };
 
+
+  useEffect(() => {
+    if (status === "loading") return;
+    if (session) {
+      router.replace('/create-okr');
+    }
+  }, [session, status, router]);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -133,7 +141,10 @@ const SignIn = () => {
                 height={25}
                 className="ml-8"
               />
-              <button className="w-full">Inicia sesión con Google</button>
+              <button
+              className="w-full"
+              onClick={() => signIn("google", { callbackUrl: "/create-okr" })}
+              >Inicia sesión con Google</button>
             </div>
             <div className="text-left mb-2 text-sm">
               <p>
