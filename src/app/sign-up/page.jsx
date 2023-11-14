@@ -225,7 +225,7 @@ const SignUp = () => {
             <div className="text-left mb-14 md:mb-2 text-sm">
               <p>
                 ¿Olvidaste tu contraseña?<span className="mr-2"></span>
-                <Link className="text-[#01803C]" href="/resend-confirmation">
+                <Link className="text-[#01803C]" href="/password-recovery">
                   Recuperar contraseña
                 </Link>
               </p>

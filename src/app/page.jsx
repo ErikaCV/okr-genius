@@ -20,6 +20,10 @@ const SignIn = () => {
   const router = useRouter();
   const inputRef = useRef();
 
+
+  if (session) {
+    router.replace('/create-okr');
+  }
   const onSubmit = async (data) => {
     const response = await signIn("credentials", {
       email: data.email,
@@ -35,12 +39,12 @@ const SignIn = () => {
   };
 
 
-  useEffect(() => {
-    if (status === "loading") return;
-    if (session) {
-      router.replace('/create-okr');
-    }
-  }, [session, status, router]);
+  // useEffect(() => {
+  //   if (status === "loading") return;
+  //   if (session) {
+  //     router.replace('/create-okr');
+  //   }
+  // }, [session, status, router]);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -143,6 +147,7 @@ const SignIn = () => {
               />
               <button
               className="w-full"
+              type="button"
               onClick={() => signIn("google", { callbackUrl: "/create-okr" })}
               >Inicia sesión con Google</button>
             </div>
