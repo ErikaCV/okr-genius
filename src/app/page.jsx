@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
@@ -19,7 +19,7 @@ const SignIn = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const inputRef = useRef();
-
+  const [errorMessage, setErrorMessage] = useState('');
 
   if (session) {
     router.replace('/create-okr');
@@ -31,10 +31,13 @@ const SignIn = () => {
       redirect: false,
     })
     console.log(response)
-    // console.log(data)
+ 
 
     if (response.ok) {
       router.push("/create-okr")
+    } else {
+      
+      setErrorMessage('Credenciales incorrectas.');
     }
   };
 
@@ -169,6 +172,15 @@ const SignIn = () => {
             </div>
           </div>
         </form>
+       
+        {errorMessage && (
+        <div className="toast toast-end">
+        <div className="alert alert-error transition-opacity duration-300 ease-in-out opacity-100">
+        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span>{errorMessage}</span>
+        </div>
+      </div>
+      )}
       </div>
     </div>
   );

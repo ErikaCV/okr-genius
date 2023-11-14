@@ -28,48 +28,50 @@ const SignUp = () => {
   }, []);
 
   const onSubmit = async (data) => {
-  
-
     try {
-      const { username, email, password } = data;
-      const response = await fetch("/api/signup", {
+      // 1. Extrae los datos del formulario.
+      const { email, username, password } = data;
+  
+      // 2. Realiza una solicitud POST al servidor con los datos del formulario.
+      const signUpResponse = await fetch("/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, username, password }),
       });
-      const responseData = await response.json()
-
-      const res = await signIn('credentials', {
-        email: responseData.email,
-        password: data.password,
+  
+      // 3. Convierte la respuesta del servidor a formato JSON.
+      const signUpData = await signUpResponse.json();
+  
+      // 4. Verifica si la solicitud POST no fue exitosa.
+      if (!signUpResponse.ok) {
+        // 5. Establece un mensaje de error basado en la respuesta del servidor.
+        setApiError(signUpData.message || 'Error al registrarse.');
+        return; // 6. Termina la ejecución si hubo error.
+      }
+  
+      // 7. Si el registro fue exitoso, intenta iniciar sesión.
+      const signInResponse = await signIn('credentials', {
+        email,
+        password,
         redirect: false,
-      })
-      
-
-      if (res.ok) {
-        setApiError('');
-        return router.push("/create-okr")
-        // Registro exitoso, puedes redireccionar o mostrar un mensaje aquí si lo deseas
+      });
+  
+      // 8. Verifica si el inicio de sesión fue exitoso.
+      if (signInResponse.ok) {
+        // 9. Redirecciona al usuario si el inicio de sesión fue exitoso.
+        router.push("/create-okr");
       } else {
-        const result = await res.json();
-        // Verificar el código de estado y mostrar el mensaje apropiado
-        if (res.status === 400 && result.message === "El email ya está en uso") {
-          setApiError('correo electrónico o contraseña inválida, por favor intenta nuevamente.');
-        } else if (res.status === 400 && result.message === "La contraseña es demasiado corta") {
-          setApiError('La contraseña es demasiado corta.');
-        } else {
-          // Para cualquier otro error no manejado específicamente, muestra este mensaje
-          setApiError('Ocurrió un error inesperado, por favor intenta de nuevo');
-        }
+        // 10. Establece un mensaje de error si el inicio de sesión falló.
+        setApiError('Error al iniciar sesión después del registro.');
       }
     } catch (error) {
-      console.error('Hubo un error al registrar al usuario', error);
-      // Este es un error de red o ocurrió algo al intentar hacer el fetch
-      setApiError('Ocurrió un error en el servidor, por favor intenta de nuevo');
+      // 11. Maneja cualquier error inesperado en la solicitud.
+      console.error('Error en la solicitud de registro:', error);
+      setApiError('Ocurrió un error de conexión al servidor.');
     }
-  
+    // 12. Resetea el formulario.
     reset();
   };
 
@@ -231,9 +233,17 @@ const SignUp = () => {
               </p>
             </div>
           </div>
-          <div>
+          {/* <div>
           {apiError && <p className="text-red-500 text-center mt-4 text-xl">{apiError}</p>} 
-          </div>
+          </div> */}
+          {apiError && (
+        <div className="toast toast-end">
+        <div className="alert alert-error transition-opacity duration-300 ease-in-out opacity-100">
+        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span>{apiError}</span>
+        </div>
+      </div>
+      )}
         </form>
         
       </div>
