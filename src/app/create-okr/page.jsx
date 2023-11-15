@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import downloadIcon from "@/assets/images/download-icon.png";
 import CalendarSvg from "@/components/CalendarSvg";

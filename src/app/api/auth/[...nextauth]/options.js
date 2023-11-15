@@ -22,7 +22,7 @@ export const authOptions = {
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
           });
-          console.log(user);
+          console.log("USER",user);
           // Si el usuario no existe, retorna null
           if (!user) {
             return null;
@@ -58,15 +58,13 @@ export const authOptions = {
     signIn: "/",
   },
   callbacks: {
-    jwt({ account, token, user, profile, session }) {
-      // if (user) token.user = user;
-      // console.log("JWT")
+    async jwt({ account, token, user, profile, session }) {
+       if (user) token.user = user;
       return token;
     },
-    sessions({ session, token }) {
-      // session.user = token.user;
-      // console.log("SESSIONS")
-      // No es necesario castear token.user a ningún tipo en JavaScript puro session.user = token.user as any
+    async session({ session, token }) {
+       session.user = token.user;
+
       return session;
     },
   },
