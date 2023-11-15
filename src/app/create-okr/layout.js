@@ -50,7 +50,7 @@ export default function Layout({ children }) {
                         <DarkButton text={'Crear OKR'} link={'create-okr'} />
                     </li>
                     <li>
-                        <DarkButton text={'Historial de OKRs'} link={'okr-history'} />
+                        <DarkButton text={'Historial de OKRs'} link={'objective-okr'} />
                     </li>
                     <li>
                         <DarkButton text={'Cerrar sesión'} onClick={toggleSignoutModal} />
@@ -75,7 +75,7 @@ export default function Layout({ children }) {
                                 <DarkButton text='Crear OKR' link={'create-okr'} />
                             </li>
                             <li>
-                                <DarkButton text='Historial de OKRs' link={'okr-history'} />
+                                <DarkButton text='Historial de OKRs' link={'objective-okr'} />
                             </li>
                             <li>
                                 <DarkButton text={'Cerrar sesión'} onClick={toggleSignoutModal} />

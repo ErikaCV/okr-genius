@@ -16,7 +16,27 @@
   .invalid-feedback {
     @apply text-custom-red text-sm
   }
+  .btn-primary {
+    background-color: #4568ff;
 }
+.zoom-fade-in {
+  animation: zoomFadeIn 2s ease-out;
+}
+}
+
+
+
+@keyframes zoomFadeIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 
 
 
