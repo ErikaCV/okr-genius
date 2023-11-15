@@ -158,7 +158,7 @@ const SignIn = () => {
             <div className="text-left mb-2 text-sm">
               <p>
                 ¿No tienes cuenta?<span className="mr-2"></span>
-                <Link href={"/sign-up"} className="text-[#01803C]">
+                <Link href={"auth/sign-up"} className="text-[#01803C]">
                   Regístrate
                 </Link>
               </p>
@@ -166,7 +166,7 @@ const SignIn = () => {
             <div className="text-left mb-14 md:mb-2 text-sm">
               <p>
                 ¿Olvidaste tu contraseña?<span className="mr-2"></span>
-                <Link href={"/password-recovery"} className="text-[#01803C]">
+                <Link href={"/auth/forgot-password"} className="text-[#01803C]">
                   Recuperar contraseña
                 </Link>
               </p>
