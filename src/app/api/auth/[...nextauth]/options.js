@@ -55,7 +55,7 @@ export const authOptions = {
     }),
   ],
   pages: {
-    signIn: "/",
+    signIn: "/sign-in",
   },
   callbacks: {
     jwt({ account, token, user, profile, session }) {

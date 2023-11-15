@@ -219,7 +219,7 @@ const SignUp = () => {
             <div className="text-left mb-2 text-sm md:mb-0">
               <p>
                 ¿Estás registrado?<span className="mr-2"></span>
-                <Link href={"/"} className="text-[#01803C]">
+                <Link href={"/sign-in"} className="text-[#01803C]">
                   Inicia sesión
                 </Link>
               </p>

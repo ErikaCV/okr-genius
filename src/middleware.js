@@ -19,7 +19,7 @@ export default withAuth(
 
         // Si el usuario no está autenticado y trata de acceder a una página protegida, redirigir al login
         if (!isAuth && onProtectedPage) {
-            return NextResponse.redirect(new URL('/', req.url)); // Asegúrate de que esta URL sea correcta
+            return NextResponse.redirect(new URL("/sign-in", req.url)); // Asegúrate de que esta URL sea correcta
         }
 
         return NextResponse.next();
