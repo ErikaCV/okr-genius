@@ -15,8 +15,7 @@ model User {
   email    String   @unique
   username String   
   password String
-  prompts  Prompt[]
-  results  Result[]
+  okr  Okr[]
   passwordResetTokens PasswordResetToken[]
   @@map("user")
 }
@@ -31,20 +30,28 @@ model PasswordResetToken {
   userId Int
 }
 
-model Prompt {
-  id      Int     @id @default(autoincrement())
+model Okr{
+  id  Int @id @default(autoincrement())
   content String
-  userId  Int  // Modificado a String
+  result String
+  userId Int
+  createdAt DateTime @default(now())
   user    User    @relation(fields: [userId], references: [id])
-  result  Result?
 }
 
-model Result {
-  id        Int      @id @default(autoincrement())
-  OKR       String
-  createdAt DateTime @default(now())
-  promptId  Int      @unique
-  prompt    Prompt   @relation(fields: [promptId], references: [id])
-  userId    Int  // Modificado a String
-  user      User    @relation(fields: [userId], references: [id])
-}
+// model Prompt {
+//   id      Int     @id @default(autoincrement())
+//   content String
+//   userId  Int  // Modificado a String
+//   user    User    @relation(fields: [userId], references: [id])
+//   result  Result?
+// }
+
+// model Result {
+//   id        Int      @id @default(autoincrement())
+//   OKR       String
+//   createdAt DateTime @default(now())
+//   promptId  Int      @unique
+//   prompt    Prompt   @relation(fields: [promptId], references: [id])
+
+// }
