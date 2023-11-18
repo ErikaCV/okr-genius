@@ -3,14 +3,14 @@ import { useForm } from 'react-hook-form';
 import Image from "next/image";
 import downloadIcon from "@/assets/images/download-icon.png";
 import CalendarSvg from "@/components/CalendarSvg";
+import { useSession } from 'next-auth/react';
 
 export default function CreateOkr() {
   const { register, handleSubmit, setValue } = useForm();
+  const { data: session, status } = useSession()
   const onSubmit = async (data) => {
-    // Lógica para enviar el contenido del prompt a tu API
-    // Por ejemplo, usando fetch para enviar a /api/prompts
 
-    const response = await fetch('/api/prompts', {
+    const response = await fetch('/api/okr', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,17 +21,28 @@ export default function CreateOkr() {
     if (response.ok) {
       const result = await response.json();
       // Establecer el resultado en el segundo textarea
-      setValue('resultContent', result.simulatedResponse);
+      setValue('resultContent', result.result);
     } else {
       // Manejar errores, como respuesta no satisfactoria de la API
     }
   };
+
+  const historyTest = async() => {
+    const response = await fetch(`/api/okr/history/${session.user.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+      });
+      const result = await response.json()
+      console.log('RESPONSE', result);
+  }
   return (
-      <main className="bg-gray-100 sm:w-2/3 sm:min-h-screen">
-        <h2 className="font-abel text-black flex justify-center items-center text-xl pt-5 mb-5 sm:border-b sm:border-gray-300">
-          Crear tus OKRs
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <main className="bg-gray-100 sm:w-2/3 sm:min-h-screen">
+      <h2 className="font-abel text-black flex justify-center items-center text-xl pt-5 mb-5 sm:border-b sm:border-gray-300">
+        Crear tus OKRs
+      </h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <h3 className="font-abel text-black text-lg pl-7">
           Ingresá tu sueño de negocio:
         </h3>
@@ -63,8 +74,8 @@ export default function CreateOkr() {
             <span className="text-custom-red">Crear OKR</span>
           </button>
         </div>
-        </form>
-        <h3 className="font-abel text-black text-lg pl-7 mt-1">
+      </form>
+      <h3 className="font-abel text-black text-lg pl-7 mt-1">
         OKRs IA hizo estos objetivos para ti:
       </h3>
       <div className="flex justify-center items-center w-full my-3">
@@ -75,17 +86,17 @@ export default function CreateOkr() {
           readOnly
         ></textarea>
       </div>
-        <div className="flex justify-center items-center">
-          <button className="border-2 border-custom-red bg-custom-gray rounded-md px-20 py-2 flex justify-center items-center gap-2">
-            <Image
-              src={downloadIcon}
-              alt="download-icon"
-              width={20}
-              height={20}
-            />
-            <span className="text-custom-red">Descargar PDF</span>
-          </button>
-        </div>
-      </main>
+      <div className="flex justify-center items-center">
+        <button className="border-2 border-custom-red bg-custom-gray rounded-md px-20 py-2 flex justify-center items-center gap-2">
+          <Image
+            src={downloadIcon}
+            alt="download-icon"
+            width={20}
+            height={20}
+          />
+          <span className="text-custom-red" onClick={historyTest}>Descargar PDF</span>
+        </button>
+      </div>
+    </main>
   );
 }

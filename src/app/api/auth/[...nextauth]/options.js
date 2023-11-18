@@ -57,6 +57,9 @@ export const authOptions = {
   pages: {
     signIn: "/sign-in",
   },
+  session: {
+    strategy: "jwt"
+  },
   callbacks: {
     async jwt({ account, token, user, profile, session }) {
        if (user) token.user = user;
@@ -64,7 +67,8 @@ export const authOptions = {
     },
     async session({ session, token }) {
        session.user = token.user;
-
+      // console.log('SESSIONNN',session);
+      // console.log('TOKEN', token);
       return session;
     },
   },

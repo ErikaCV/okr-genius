@@ -9,7 +9,8 @@ export const metadata = {
   description: "AI Tool for OKR generation",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+
   return (
     <html lang="es" data-theme="light">
       <body className={inter.className}>
