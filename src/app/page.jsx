@@ -26,7 +26,7 @@ export default function HomePage() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-5 zoom-fade-in">OKR Genius</h1>
           <p className="text-base sm:text-lg">Transforma tus metas en logros. ¡Tu éxito comienza aquí!</p>
           <button className="btn btn-primary text-sm sm:text-base my-4">
-            <Link href={"/sign-up"} className="text-[#e9ebf1]">
+            <Link href={"/auth/sign-up"} className="text-[#e9ebf1]">
               Regístrate
             </Link>
           </button>

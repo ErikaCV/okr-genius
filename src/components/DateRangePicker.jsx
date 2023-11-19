@@ -2,27 +2,26 @@
 import React, { useState } from 'react';
 
 const DateRangePicker = () => {
-    // Estados para manejar las fechas
+ 
     const [fechaDesde, setFechaDesde] = useState('');
     const [fechaHasta, setFechaHasta] = useState('');
 
-    // Manejador para el cambio en fechaDesde
+ 
     const handleFechaDesdeChange = (event) => {
         const nuevaFechaDesde = event.target.value;
         setFechaDesde(nuevaFechaDesde);
 
-        // Ajustar fechaHasta si es necesario
+      
         if (fechaHasta && nuevaFechaDesde > fechaHasta) {
             setFechaHasta(nuevaFechaDesde);
         }
     };
 
-    // Manejador para el cambio en fechaHasta
     const handleFechaHastaChange = (event) => {
         const nuevaFechaHasta = event.target.value;
         setFechaHasta(nuevaFechaHasta);
 
-        // Ajustar fechaDesde si es necesario
+   
         if (fechaDesde && nuevaFechaHasta < fechaDesde) {
             setFechaDesde(nuevaFechaHasta);
         }

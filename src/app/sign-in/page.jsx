@@ -132,7 +132,7 @@ const SignIn = () => {
                 </div>
               )}
             </div>
-            <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-center text-base bg-[#9cb6dd] border-custom-blue hover:bg-custom-dark-blue">
+            <div className="flex items-center justify-center w-full border-2 p-1 rounded mb-4 text-center text-base bg-custom-light-blue border-custom-blue hover:bg-custom-dark-blue">
               <button type="submit" className="w-full">
                 Iniciar sesión
               </button>
