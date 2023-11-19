@@ -11,7 +11,7 @@
 
 @layer components {
   .style-input {
-   @apply w-full border-2 border-[#524e4e]  md:px-3 md:py-1 rounded-md
+   @apply w-full border-2 border-[#839dd1]  md:px-3 md:py-1 rounded-md
   }
   .invalid-feedback {
     @apply text-custom-red text-sm
@@ -22,6 +22,7 @@
 .zoom-fade-in {
   animation: zoomFadeIn 2s ease-out;
 }
+
 }
 
 
