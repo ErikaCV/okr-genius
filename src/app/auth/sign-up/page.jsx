@@ -78,22 +78,21 @@ const SignUp = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="font-abel text-black md:bg-[#D9D9D9] md:min-h-screen"
+    className=" text-black  md:min-h-screen"
     >
       <div className="flex flex-col items-center justify-center md:hidden">
         <Image
           src={logo}
           alt="logo"
-          width={100}
-          height={100}
+          width={200}
           className="mb-3"
         />
       </div>
-      <div className="flex flex-col items-center justify-center text-4xl text-black md:mx-12 md:pt-12 md:text-3xl">
-        <span className="font-kronaOne">OKR</span>
-        <span className="font-kronaOne">GENIUS</span>
+      <div className="flex flex-col items-center justify-center text-4xl text-black mb-7 md:mx-12 md:pt-9">
+        <span className="">OKR</span>
+        <span className="">GENIUS</span>
       </div>
-      <div className="md:mx-24 md:mt-12  text-x font-abel">
+      <div className="md:mt-12 mx-16  md:mx-12 ">
         <div className="mb-4">
           <label htmlFor="username">Nombre de usuario</label>
           <Controller
@@ -200,7 +199,7 @@ const SignUp = () => {
             </div>
           )}
         </div>
-        <div className="flex items-center justify-center w-full border-2 p-2 rounded my-4 text-base text-[#CA2A2A] bg-[#D9D9D9] border-[#CA2A2A] hover:bg-[#c97f7f] md:p-0 md:mb-1  md:px-3 md:py-1">
+        <div className="flex items-center justify-center w-full border-2 p-2 rounded my-4 text-base  bg-[#9cb6dd] border-custom-blue hover:bg-custom-dark-bluemd:p-0 md:mb-1  md:px-3 md:py-1">
           <button type="submit" className="w-full">
             Regístrate
           </button>
@@ -208,7 +207,7 @@ const SignUp = () => {
         <div className="text-left mb-2 text-sm md:mb-0">
           <p>
             ¿Estás registrado?<span className="mr-2"></span>
-            <Link href={"/"} className="text-[#01803C]">
+            <Link href={"/"} className="text-custom-light-green">
               Inicia sesión
             </Link>
           </p>
@@ -216,7 +215,7 @@ const SignUp = () => {
         <div className="text-left mb-14 md:mb-2 text-sm">
           <p>
             ¿Olvidaste tu contraseña?<span className="mr-2"></span>
-            <Link className="text-[#01803C]" href="/auth/forgot-password">
+            <Link className="text-custom-light-green" href="/auth/forgot-password">
               Recuperar contraseña
             </Link>
           </p>
