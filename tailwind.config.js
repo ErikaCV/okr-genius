@@ -12,18 +12,16 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-
-      fontFamily: {
-        'kronaOne': ['Krona One'],
-        'abel': ['Abel'],
-      },
       
       backgroundColor: {
         'custom-gray': '#D9D9D9',
+        'custom-light-sky-blue': '#f2f7fb',
+        'custom-sky-blue': '#d3e2f2',
         
       },
       colors: {
         'custom-red': '#CA2A2A',
+        'custom-light-green': '#01803C',
       }
     },
   },

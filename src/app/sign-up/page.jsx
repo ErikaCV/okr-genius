@@ -85,7 +85,7 @@ const SignUp = () => {
       <div className="px-4 md:p-0 md:w-1/2">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="font-abel text-black md:bg-[#D9D9D9] md:min-h-screen"
+          className="font-abel text-black md:bg-[#d3e2f2] md:min-h-screen"
         >
           <div className="flex flex-col items-center justify-center md:hidden">
             <Image
