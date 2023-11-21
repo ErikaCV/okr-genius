@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
 import logo from "@/assets/images/icon.webp";
-import image2 from "@/assets/images/f-4.jpg";
+import image2 from "@/assets/images/f-4.webp";
 import icongl from "@/assets/images/google-icon.webp";
 import Image from "next/image";
 import { signIn , useSession } from "next-auth/react"
