@@ -16,7 +16,7 @@ export default function ForgotPassword() {
 
   return (
     <form  action={submit}
-    className=" text-black  md:min-h-screen">
+    className=" text-black min-h-[100svh] ">
         <div className="flex flex-col items-center justify-center md:hidden">
         <Image
           src={logo}
@@ -43,7 +43,7 @@ export default function ForgotPassword() {
           />
           {error && <p className="text-red-500">{error}</p>}
         </div>
-        <div className="flex items-center justify-center w-full border-2 p-2 rounded my-4 text-sm   bg-custom-light-blue border-custom-blue hover:bg-custom-dark-blue p-0 md:mb-1 md:text-base md:px-3 md:py-1">
+        <div className="flex items-center justify-center w-full border-2 rounded my-4 text-sm   bg-custom-light-blue border-custom-blue hover:bg-custom-dark-blue p-0 md:mb-1 md:text-base md:px-3 md:py-1">
           <button type="submit" className="w-full">
             Recuperar contraseña
           </button>

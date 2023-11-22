@@ -1,6 +1,5 @@
 import Image from "next/image";
-import logo from "@/assets/images/icon.webp";
-import image2 from "@/assets/images/f-4.jpg";
+import image2 from "@/assets/images/f-4.webp";
 export default function Layout({ children }) {
   return (
     <div className="bg-custom-light-sky-blue flex items-center justify-center md:max-h-screen">
