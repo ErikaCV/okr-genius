@@ -36,12 +36,12 @@ export default function CreateOkr() {
     console.log("RESPONSE", result);
   };
   return (
-    <main className="bg-custom-light-sky-blue sm:w-2/3 sm:min-h-screen">
-      <h2 className="font-abel text-black flex justify-center items-center text-2xl pt-5 mb-5 sm:border-b sm:border-gray-300">
+    <main className="bg-custom-light-sky-blue sm:w-2/3 min-h-[calc(100svh-80px)]">
+      <h2 className=" text-black flex justify-center items-center text-2xl pt-5 mb-5 sm:border-b sm:border-gray-300">
         Crear tus OKRs
       </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h3 className="font-abel text-black text-lg pl-7">
+        <h3 className=" text-black text-lg pl-7">
           Ingresá tu sueño de negocio:
         </h3>
         <div className="flex justify-center items-center w-full mt-2.5 mb-3">

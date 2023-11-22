@@ -16,7 +16,7 @@ export default function ForgotPassword() {
 
   return (
     <form  action={submit}
-    className=" text-black  md:min-h-screen">
+    className=" text-black min-h-[100svh] ">
         <div className="flex flex-col items-center justify-center md:hidden">
         <Image
           src={logo}

@@ -78,7 +78,7 @@ const SignUp = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-    className=" text-black  md:min-h-screen"
+    className=" text-black  min-h-[100svh]"
     >
       <div className="flex flex-col items-center justify-center md:hidden">
         <Image
@@ -207,7 +207,7 @@ const SignUp = () => {
         <div className="text-left mb-2 text-sm md:mb-0">
           <p>
             ¿Estás registrado?<span className="mr-2"></span>
-            <Link href={"/"} className="text-custom-light-green">
+            <Link href={"/sign-in"} className="text-custom-light-green">
               Inicia sesión
             </Link>
           </p>
