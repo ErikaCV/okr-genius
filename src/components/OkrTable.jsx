@@ -1,11 +1,18 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function OkrTable({ data }) {
     const [expandedRow, setExpandedRow] = useState(null);
     const [selectedPriority, setSelectedPriority] = useState('Baja');
     const [selectedState, setSelectedState] = useState('No realizado');
-    const [newData, setNewData] = useState(initializeNewData(data));
+    // const [newData, setNewData] = useState(initializeNewData(data));
+    const [newData, setNewData] = useState([]);
+
+    useEffect(() => {
+        if (data) {
+            setNewData(initializeNewData(data));
+        }
+    }, [data]);
 
     const handleRowClick = (index) => {
         if (expandedRow === index) {
@@ -14,6 +21,7 @@ export default function OkrTable({ data }) {
             setExpandedRow(index);
         }
     };
+
     function initializeNewData(data) {
         return data.map(item => ({
             ...item,
@@ -67,8 +75,8 @@ export default function OkrTable({ data }) {
                             className={`${expandedRow === index ? 'bg-blue-200' : 'hover:bg-gray-100'
                                 } cursor-pointer transition-all`}
                         >
-                            <td className="py-2">{item.content}</td>
-                            <td className="py-2">{dateFormatter(item.createdAt)}</td>
+                            <td className='py-1'>{item.content}</td>
+                            <td>{dateFormatter(item.createdAt)}</td>
                         </tr>
                         {expandedRow === index && (
                             <tr>
@@ -76,7 +84,7 @@ export default function OkrTable({ data }) {
                                     <table className='text-center w-full border-b-2'>
                                         <thead>
                                             <tr>
-                                                <th>Tarea</th>
+                                                <th>Tareas</th>
                                                 <th>Prioridad</th>
                                                 <th>Estado</th>
                                             </tr>
