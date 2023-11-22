@@ -53,7 +53,10 @@ export default function Layout({ children }) {
           </li>
         </ul>
       </nav>
-      {children}
+      <main className="bg-gray-100 sm:w-2/3 sm:min-h-screen">
+        {children}
+      </main>
+
 
       {isModalOpen && (
         <div className="fixed inset-0 flex justify-end items-start">
