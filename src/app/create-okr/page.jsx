@@ -91,7 +91,7 @@ export default function CreateOkr() {
           fileName={`OKRs_${uuidv4()}.pdf`}
         >
           {({ blob, url, loading, error }) =>
-            loading ? 'Cargando documento...' : (
+            loading ? <span className="loading loading-spinner text-info"></span> : (
               <button className="border-2 bg-custom-sky-blue border-custom-blue rounded-md py-2 px-20 flex justify-center items-center gap-2 hover:bg-custom-dark-blue transition duration-300 ease-in-out">
                 <Image
                   src={downloadIcon}

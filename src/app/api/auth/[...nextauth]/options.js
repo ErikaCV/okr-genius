@@ -22,7 +22,7 @@ export const authOptions = {
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
           });
-          console.log("USER", user);
+          console.log("USER",user);
           // Si el usuario no existe, retorna null
           if (!user) {
             return null;
@@ -58,33 +58,18 @@ export const authOptions = {
     signIn: "/sign-in",
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt"
   },
   callbacks: {
     async jwt({ account, token, user, profile, session }) {
-      if (account && account.provider === "google") {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/signup`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: user.email,
-            username: `google_user_${Date.now()}`, // Genera un username único
-            // No se incluye la contraseña
-          }),
-        });
-        console.log(username)
-        const data = await response.json();
-        if (response.ok) {
-          token.user = data;
-        } else {
-          console.error('Error al crear usuario:', data.message);
-        }
-      } else if (user) {
-        token.user = user;
-      }
+       if (user) token.user = user;
       return token;
+    },
+    async session({ session, token }) {
+       session.user = token.user;
+      // console.log('SESSIONNN',session);
+      // console.log('TOKEN', token);
+      return session;
     },
   },
 };
