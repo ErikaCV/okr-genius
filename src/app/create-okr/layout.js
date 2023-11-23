@@ -18,8 +18,8 @@ export default function Layout({ children }) {
   };
 
   return (
-    <div className="flex flex-col w-screen sm:flex-row sm:justify-end">
-      <nav className="navbar bg-custom-sky-blue justify-center items-center border-b border-black sm:hidden">
+    <div className="flex flex-col w-screen sm:flex-row sm:justify-end min-h-[100svh] ">
+      <nav className="navbar h-20 bg-custom-sky-blue justify-center items-center border-b border-black sm:hidden">
         <div>
           <Image src={logo} alt="logo" width={80} />
         </div>

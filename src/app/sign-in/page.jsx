@@ -60,7 +60,7 @@ const SignIn = () => {
       <div className="bg-custom-sky-blue rounded-[30px] px-4 md:p-0 md:w-1/2"> 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" text-black  md:min-h-screen"
+          className=" text-black  min-h-[100svh]"
         >
           <div className="flex flex-col items-center justify-center  md:hidden">
             <Image
