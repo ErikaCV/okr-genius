@@ -32,7 +32,7 @@ export default function CreateOkr() {
       setValue("resultContent", result.result);
       // Actualizar pdfContent con el resultado para el PDF
       setPdfContent(result.result);
-    } else {s
+    } else {
       const errorText = await response.text(); // o `response.json()` si la API devuelve un objeto de error JSON
       console.error("Error en la respuesta de la API:", errorText);
     }

@@ -1,5 +1,5 @@
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
-import logo from '../assets/images/3c-removebg-preview.png'; 
+
 
 const styles = StyleSheet.create({
   page: {
@@ -38,7 +38,7 @@ const MyDocument = ({ content }) => (
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
         <Text style={styles.title}>OKR Genius</Text>
-        <Image style={styles.logo} src={logo} />
+        
       </View>
       <View style={styles.line}></View>
       <Text style={styles.content}>{content}</Text>
