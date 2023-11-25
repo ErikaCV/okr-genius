@@ -60,16 +60,57 @@ export const authOptions = {
   session: {
     strategy: "jwt"
   },
+
   callbacks: {
-    async jwt({ account, token, user, profile, session }) {
-       if (user) token.user = user;
+    async jwt({ token, account, user }) {
+      const prisma = new PrismaClient();
+      
+      // Si el usuario inicia sesión con Google o con credenciales
+      if (account) {
+        if (account.provider === "google") {
+          // Manejo para inicio de sesión con Google
+          let userToUpdate = user;
+  
+          // Busca si el usuario ya existe en la base de datos
+          const existingUser = await prisma.user.findUnique({
+            where: { email: user.email }
+          });
+  
+          if (!existingUser) {
+            // Crea un nuevo usuario sin contraseña
+            const newUser = await prisma.user.create({
+              data: {
+                email: user.email,
+                username: `google_user_${Date.now()}`, // Genera un username único
+              },
+            });
+            userToUpdate = newUser;
+          } 
+  
+          // Asigna el ID del usuario al token
+          token.id = existingUser ? existingUser.id : userToUpdate.id;
+        } else {
+          // Manejo para otros proveedores o credenciales
+          const existingUser = await prisma.user.findUnique({
+            where: { email: user.email }
+          });
+  
+          if (existingUser) {
+            token.id = existingUser.id;
+          }
+        }
+      }
+  
+      // Desconecta la instancia de Prisma
+      await prisma.$disconnect();
       return token;
     },
     async session({ session, token }) {
-       session.user = token.user;
-      // console.log('SESSIONNN',session);
-      // console.log('TOKEN', token);
+      // En el callback de la sesión, asigna el ID del usuario al objeto de sesión
+      session.user.id = token.id;
+  
       return session;
     },
-  },
+    // ...otros callbacks que puedas tener
+  }
 };

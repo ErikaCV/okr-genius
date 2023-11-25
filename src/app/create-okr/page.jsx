@@ -8,6 +8,8 @@ import MyDocument from '../../components/MyDocument';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { v4 as uuidv4 } from 'uuid';
 
+
+
 export default function CreateOkr() {
   const { register, handleSubmit, setValue } = useForm();
   const { data: session, status } = useSession();
@@ -17,6 +19,8 @@ export default function CreateOkr() {
     setValue("resultContent", pdfContent);
   }, [pdfContent]);
 
+  console.log("Console log de la sesion", session)
+ 
   const onSubmit = async (data) => {
     const response = await fetch("/api/okr", {
       method: "POST",
@@ -25,7 +29,7 @@ export default function CreateOkr() {
       },
       body: JSON.stringify({ content: data.promptContent }),
     });
-
+    
     if (response.ok) {
       const result = await response.json();
       // Establecer el resultado en el segundo textarea
