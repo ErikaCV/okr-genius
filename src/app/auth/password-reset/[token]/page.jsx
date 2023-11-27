@@ -12,7 +12,7 @@ export default function A({ params }) {
   }
 
   return (
-    <form className="font-abel text-black md:bg-[#D9D9D9] md:min-h-screen" action={submit}>
+    <form className="font-abel text-black md:min-h-screen" action={submit}>
       <div className="flex flex-col items-center text-center text-4xl text-black pb-8 md:pt-16">
         <span className="font-kronaOne">OKR</span>
         <span className="font-kronaOne">GENIUS</span>
