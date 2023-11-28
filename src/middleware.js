@@ -8,7 +8,8 @@ export default withAuth(
         const isAuth = !!token;
         const isApiEndpoint = req.nextUrl.pathname.startsWith('/api');
         const onProtectedPage = ["/create-okr", "/objective-okr"].includes(req.nextUrl.pathname);
-        console.log("isAuth: ", isAuth);
+        // console.log("isAuth: ", isAuth);
+    
 
         if (!isAuth && onProtectedPage) {
             console.log("Redireccionando a /sign-in")
@@ -22,7 +23,9 @@ export default withAuth(
         }
 
         // Si la solicitud es para un endpoint de la API, permitir el acceso
-        if (isApiEndpoint) return NextResponse.next();
+        if (isApiEndpoint) {
+            console.log("pasa por isApiEndPoint");
+        } return NextResponse.next();
 
         // Si el usuario no está autenticado y trata de acceder a una página protegida, redirigir al login
         

@@ -3,42 +3,36 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import downloadIcon from "@/assets/images/download-icon.png";
 import { useSession } from "next-auth/react";
-import React, { useState, useEffect } from 'react';
-import MyDocument from '../../components/MyDocument'; 
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import { v4 as uuidv4 } from 'uuid';
-
-
+import React, { useState, useEffect } from "react";
+import MyDocument from "../../components/MyDocument";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CreateOkr() {
   const { register, handleSubmit, setValue } = useForm();
   const { data: session, status } = useSession();
-  const [pdfContent, setPdfContent] = useState('');
+  const [pdfContent, setPdfContent] = useState("");
 
-  useEffect(() => {
-    setValue("resultContent", pdfContent);
-  }, [pdfContent]);
-
-  console.log("Console log de la sesion", session)
- 
   const onSubmit = async (data) => {
-    const response = await fetch("/api/okr", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ content: data.promptContent }),
-    });
-    
-    if (response.ok) {
-      const result = await response.json();
-      // Establecer el resultado en el segundo textarea
-      setValue("resultContent", result.result);
-      // Actualizar pdfContent con el resultado para el PDF
-      setPdfContent(result.result);
-    } else {
-      const errorText = await response.text(); // o `response.json()` si la API devuelve un objeto de error JSON
-      console.error("Error en la respuesta de la API:", errorText);
+    try {
+      const response = await fetch("/api/okr", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: data.promptContent }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+
+      const jsonResult = await response.json();
+
+      setValue("resultContent", jsonResult);
+      setPdfContent(jsonResult);
+    } catch (error) {
+      console.error("Error en la respuesta de la API:", error);
     }
   };
 
@@ -89,27 +83,29 @@ export default function CreateOkr() {
         ></textarea>
       </div>
       <div className="flex justify-center items-center">
-      {pdfContent && (
-        <PDFDownloadLink
-          document={<MyDocument content={pdfContent} />}
-          fileName={`OKRs_${uuidv4()}.pdf`}
-        >
-          {({ blob, url, loading, error }) =>
-            loading ? <span className="loading loading-spinner text-info"></span> : (
-              <button className="border-2 bg-custom-sky-blue border-custom-blue rounded-md py-2 px-20 flex justify-center items-center gap-2 hover:bg-custom-dark-blue transition duration-300 ease-in-out">
-                <Image
-                  src={downloadIcon}
-                  alt="download-icon"
-                  width={20}
-                  height={20}
-                />
-                <span className="text-black">Descargar PDF</span>
-              </button>
-            )
-          }
-        </PDFDownloadLink>
-      )}
-    </div>
+        {pdfContent && (
+          <PDFDownloadLink
+            document={<MyDocument content={pdfContent} />}
+            fileName={`OKRs_${uuidv4()}.pdf`}
+          >
+            {({ blob, url, loading, error }) =>
+              loading ? (
+                <span className="loading loading-spinner text-info"></span>
+              ) : (
+                <button className="border-2 bg-custom-sky-blue border-custom-blue rounded-md py-2 px-20 flex justify-center items-center gap-2 hover:bg-custom-dark-blue transition duration-300 ease-in-out">
+                  <Image
+                    src={downloadIcon}
+                    alt="download-icon"
+                    width={20}
+                    height={20}
+                  />
+                  <span className="text-black">Descargar PDF</span>
+                </button>
+              )
+            }
+          </PDFDownloadLink>
+        )}
+      </div>
     </main>
   );
 }

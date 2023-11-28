@@ -39,20 +39,3 @@ model Okr{
   createdAt DateTime @default(now())
   user    User    @relation(fields: [userId], references: [id])
 }
-
-// model Prompt {
-//   id      Int     @id @default(autoincrement())
-//   content String
-//   userId  Int  // Modificado a String
-//   user    User    @relation(fields: [userId], references: [id])
-//   result  Result?
-// }
-
-// model Result {
-//   id        Int      @id @default(autoincrement())
-//   OKR       String
-//   createdAt DateTime @default(now())
-//   promptId  Int      @unique
-//   prompt    Prompt   @relation(fields: [promptId], references: [id])
-
-// }
