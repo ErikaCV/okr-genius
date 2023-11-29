@@ -7,6 +7,7 @@ import logo from "@/assets/images/icon.webp";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/Loading";
 
 const SignUp = () => {
   const {
@@ -20,12 +21,14 @@ const SignUp = () => {
   const router = useRouter();
   const usernameRef = useRef();
   const [apiError, setApiError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     usernameRef.current.focus();
   }, []);
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
       // 1. Extrae los datos del formulario.
       const { email, username, password } = data;
@@ -199,6 +202,7 @@ const SignUp = () => {
             </div>
           )}
         </div>
+        {isLoading && <Loading />}
         <div className="flex items-center justify-center w-full border-2 p-2 rounded my-4 text-base  bg-[#9cb6dd] border-custom-blue hover:bg-custom-dark-bluemd:p-0 md:mb-1  md:px-3 md:py-1">
           <button type="submit" className="w-full">
             Regístrate

@@ -1,14 +1,12 @@
-import React from "react";
 
-function loading() {
+function Loading() {
   return (
-    <div>
-      <span className="loading loading-dots loading-xs"></span>
-      <span className="loading loading-dots loading-sm"></span>
-      <span className="loading loading-dots loading-md"></span>
-      <span className="loading loading-dots loading-lg"></span>
+    <div className="fixed bottom-5 right-5">
+      <div className="w-48 h-48 flex justify-center items-center">
+        <span className="loading loading-spinner loading-md text-info scale-200"></span>
+      </div>
     </div>
   );
 }
 
-export default loading;
+export default Loading;

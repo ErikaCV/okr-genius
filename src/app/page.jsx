@@ -2,14 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import mobileBgImage from "@/assets/images/transformed.webp";
 import desktopBgImage from "@/assets/images/i-6-transformed.webp";
+import SignInButton from "@/components/SignInButton";
 
 export default function HomePage() {
   return (
     <div className="hero min-h-screen relative">
       <div className="absolute top-4 right-9">
-        <button className="btn btn-primary text-white text-xs sm:text-sm px-4 py-2">
-          <Link href="/sign-in">Iniciar Sesión</Link>
-        </button>
+        <SignInButton />
       </div>
 
       <div className="absolute inset-0 z-[-10] overlay-effect">

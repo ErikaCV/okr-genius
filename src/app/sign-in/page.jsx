@@ -9,6 +9,7 @@ import icongl from "@/assets/images/google-icon.webp";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/Loading";
 
 const SignIn = () => {
   const {
@@ -66,7 +67,7 @@ const SignIn = () => {
     <div className="bg-custom-light-sky-blue flex items-center justify-center md:max-h-screen">
       <div className=" flex items-center rounded-3xl shadow-lg max-w-3xl px-5  md:bg-custom-sky-blue ">
         <div className="md:block hidden w-1/2">
-          <Image className="rounded-2xl" src={image2} alt="logo" width={400} />
+          <Image className="rounded-2xl" src={image2} alt="logo" width={400} priority />
         </div>
         <div className="bg-custom-sky-blue rounded-[30px] px-4 md:p-0 md:w-1/2">
           <form
@@ -204,13 +205,7 @@ const SignIn = () => {
           )}
         </div>
       </div>
-      {isLoading && (
-        <div className="fixed bottom-5 right-5">
-          <div className="w-48 h-48 flex justify-center items-center">
-          <span className="loading loading-spinner loading-lg text-info scale-200"></span>
-          </div>
-        </div>
-      )}
+      {isLoading && <Loading />}
     </div>
   );
 };
