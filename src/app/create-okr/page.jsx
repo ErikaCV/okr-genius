@@ -17,7 +17,7 @@ export default function CreateOkr() {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data) => {
-    setIsLoading(true); // Iniciar la carga
+    setIsLoading(true);
     try {
       const response = await fetch("/api/okr", {
         method: "POST",
@@ -39,7 +39,7 @@ export default function CreateOkr() {
     } catch (error) {
       console.error("Error en la respuesta de la API:", error);
     } finally {
-      setIsLoading(false); // Finalizar la carga independientemente del resultado
+      setIsLoading(false);
     }
   };
 
@@ -55,12 +55,6 @@ export default function CreateOkr() {
   };
   return (
     <main className="bg-custom-light-sky-blue sm:w-2/3 min-h-[calc(100svh-80px)]">
-      {/* <h2 className=" text-black flex justify-center items-center text-2xl pt-5 mb-5 sm:border-b sm:border-gray-300">
-        Crear tus OKRs
-      </h2> */}
-      {/* <h3 className="font-abel text-black text-lg pl-7 mt-1">
-        OKRs IA hizo estos objetivos para ti:
-      </h3> */}
       <div className="flex justify-center items-center w-full mt-5 my-3">
         <textarea
           {...register("resultContent")}
@@ -113,10 +107,7 @@ export default function CreateOkr() {
         </div>
       </form>
 
-      {isLoading && ( <LoadingDots />
-   
-      )}
+      {isLoading && <LoadingDots />}
     </main>
   );
 }
-
