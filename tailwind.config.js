@@ -17,16 +17,14 @@ module.exports = {
         'custom-light-green': '#01803C',
         'custom-gray': '#D9D9D9',
         'custom-light-sky-blue': '#f2f7fb',
-        'custom-sky-blue': '#d3e2f2',
+        'custom-sky-blue': '#bfdbfe',
         'custom-light-blue':'#9cb6dd',
-        'custom-dark-blue': '#6eaeec',
-        
+        'custom-dark-blue': '#6eaeec', 
       },
       colors: {
         'custom-red': '#CA2A2A',
         'custom-light-green': '#01803C',
-        'custom-blue': '#839dd1',
-        
+        'custom-blue': '#839dd1', 
       }
     },
   },
