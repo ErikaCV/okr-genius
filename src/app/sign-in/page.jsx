@@ -9,7 +9,7 @@ import icongl from "@/assets/images/google-icon.webp";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Loading from "@/components/Loading";
+import Loading from "@/components/Loading2";
 
 const SignIn = () => {
   const {

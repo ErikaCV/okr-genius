@@ -7,7 +7,7 @@ import logo from "@/assets/images/icon.webp";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Loading from "@/components/Loading";
+import Loading from "@/components/Loading2";
 
 const SignUp = () => {
   const {
