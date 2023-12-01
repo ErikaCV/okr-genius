@@ -35,10 +35,11 @@ export async function POST(req) {
           },
           {
             role: "user",
-            content: `Escribe una lista de Objetivos y Resultados Clave (OKRs) para ${content}.`,
+            content: `Escribe una lista de 1 Objetivos y 3 Resultados Clave por cada objetivo (OKRs) que esten medianamente para ${content}.`,
           },
         ],
         model: "gpt-3.5-turbo",
+        max_tokens: 150,
       });
 
       console.log(completion);

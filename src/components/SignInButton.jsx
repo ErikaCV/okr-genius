@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function SignInButton() {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,16 +9,17 @@ export default function SignInButton() {
 
   const handleClick = async () => {
     setIsLoading(true);
-    console.log("aqui se setea en true",isLoading)
-    await router.push('/sign-in');
+
+    await router.push("/sign-in");
     setIsLoading(false);
-    console.log("ya cargo",isLoading)
-    
   };
 
   return (
     <>
-      <button className="btn btn-primary text-white text-xs sm:text-sm px-4 py-2" onClick={handleClick}>
+      <button
+        className="btn btn-primary text-white text-xs sm:text-sm px-4 py-2"
+        onClick={handleClick}
+      >
         Iniciar Sesión
       </button>
       {isLoading && (
