@@ -1,25 +1,28 @@
 "use client";
 import { useForm } from "react-hook-form";
-import Image from "next/image";
-import downloadIcon from "@/assets/images/download-icon.png";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
-import MyDocument from "../../components/MyDocument";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { v4 as uuidv4 } from "uuid";
+import Image from "next/image";
+import downloadIcon from "@/assets/images/download-icon.png";
+import React, { useState } from "react";
+import MyDocument from "../../components/MyDocument";
 import LoadingDots from "@/components/LoadingDots";
+import { useChat, Message } from "ai/react"
+import { NextResponse } from "next/server";
 
 export default function CreateOkr() {
   const { register, handleSubmit, setValue, reset } = useForm();
   const { data: session, status } = useSession();
   const [pdfContent, setPdfContent] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
+  const { messages } = useChat();
 
+  
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/okr", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,11 +34,28 @@ export default function CreateOkr() {
         throw new Error(`Error HTTP: ${response.status}`);
       }
 
-      const jsonResult = await response.json();
+      let result = '';
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
 
-      setValue("resultContent", jsonResult);
-      setPdfContent(jsonResult);
+      let isDone = false;
+      while (!isDone) {
+        const { done, value } = await reader.read();
+        isDone = done;
+
+        if (!done) {
+          result += decoder.decode(value, { stream: true });
+        }
+      }
+      result += decoder.decode(); // Decodifica cualquier fragmento restante
+
+      console.log("Resultado del stream:", result);
+      // Aquí puedes hacer lo que necesites con 'result'
+      // Por ejemplo, actualizar el estado del componente:
+      setValue("resultContent", result);
+      setPdfContent(result);
       reset({ promptContent: "" });
+
     } catch (error) {
       console.error("Error en la respuesta de la API:", error);
     } finally {
