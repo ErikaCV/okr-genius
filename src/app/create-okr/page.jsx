@@ -58,7 +58,7 @@ export default function CreateOkr() {
       <div className="flex justify-center items-center w-full mt-5 my-3">
         <textarea
           {...register("resultContent")}
-          className="textarea textarea-bordered bg-custom-light-sky-blue  border-blue-500 border-1  w-[90%] "
+          className="textarea textarea-bordered bg-custom-light-sky-blue  border-blue-500 border-1  w-[90%] mt-6 mb-8 md:m-0"
           placeholder="OKRs IA hizo estos objetivos para ti:"
           rows="11"
           readOnly
@@ -74,7 +74,7 @@ export default function CreateOkr() {
               loading ? (
                 <span>Loading...</span>
               ) : (
-                <button className="border-2 bg-custom-sky-blue border-custom-blue rounded-md py-2 px-4 flex justify-center items-center gap-2 hover:bg-custom-dark-blue transition duration-300 ease-in-out">
+                <button className="border-2 bg-custom-sky-blue border-custom-blue rounded-md py-2 px-4 flex justify-center items-center gap-2 hover:bg-custom-dark-blue transition duration-300 ease-in-out mb-7 md:m-0">
                   <Image
                     src={downloadIcon}
                     alt="download-icon"
@@ -97,16 +97,17 @@ export default function CreateOkr() {
             placeholder="Ingresá tu sueño de negocio:"
           ></textarea>
         </div>
-        <div className="flex justify-center items-center mt-4">
-          <button
-            type="submit"
-            className="border-2 bg-custom-sky-blue border-custom-blue rounded-md px-12 py-2 hover:bg-custom-dark-blue transition duration-300 ease-in-out"
-          >
-            <span className=" text-black">Crear OKR</span>
-          </button>
-        </div>
+        {!isLoading && (
+          <div className="flex justify-center items-center mt-4">
+            <button
+              type="submit"
+              className="border-2 bg-custom-sky-blue border-custom-blue rounded-md px-12 py-2 hover:bg-custom-dark-blue transition duration-300 ease-in-out mt-7 md:m-0"
+            >
+              <span className="text-black">Crear OKR</span>
+            </button>
+          </div>
+        )}
       </form>
-
       {isLoading && <LoadingDots />}
     </main>
   );

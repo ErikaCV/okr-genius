@@ -25,7 +25,7 @@ module.exports = {
         'custom-red': '#CA2A2A',
         'custom-light-green': '#01803C',
         'custom-blue': '#839dd1', 
-      }
+      },
     },
   },
   plugins: [require("daisyui")],

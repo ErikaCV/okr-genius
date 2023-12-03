@@ -13,12 +13,11 @@ export default function SignInButton() {
     await router.push('/sign-in');
     setIsLoading(false);
     console.log("ya cargo",isLoading)
-    
   };
 
   return (
     <>
-      <button className="btn btn-primary text-white text-xs sm:text-sm px-4 py-2" onClick={handleClick}>
+      <button className=" text-white text-xs sm:text-sm px-4 py-2 border-2 bg-[#3b82f6] border-custom-blue rounded-md  hover:bg-[#1d4ed8] transition duration-300 ease-in-out" onClick={handleClick}>
         Iniciar Sesión
       </button>
       {isLoading && (
