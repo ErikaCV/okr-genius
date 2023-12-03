@@ -17,6 +17,7 @@ export default function CreateOkr() {
   const [textareaContent, setTextareaContent] = useState("");
 
   const onSubmit = async (data) => {
+    setTextareaContent("");
     setIsLoading(true);
     try {
       const response = await fetch("/api/chat", {
