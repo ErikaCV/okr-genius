@@ -8,17 +8,14 @@ import downloadIcon from "@/assets/images/download-icon.png";
 import React, { useState } from "react";
 import MyDocument from "../../components/MyDocument";
 import LoadingDots from "@/components/LoadingDots";
-import { useChat, Message } from "ai/react"
-import { NextResponse } from "next/server";
 
 export default function CreateOkr() {
   const { register, handleSubmit, setValue, reset } = useForm();
   const { data: session, status } = useSession();
   const [pdfContent, setPdfContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { messages } = useChat();
+  const [textareaContent, setTextareaContent] = useState("");
 
-  
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
@@ -34,9 +31,9 @@ export default function CreateOkr() {
         throw new Error(`Error HTTP: ${response.status}`);
       }
 
-      let result = '';
+      let result = "";
       const reader = response.body.getReader();
-      const decoder = new TextDecoder('utf-8');
+      const decoder = new TextDecoder("utf-8");
 
       let isDone = false;
       while (!isDone) {
@@ -44,18 +41,34 @@ export default function CreateOkr() {
         isDone = done;
 
         if (!done) {
-          result += decoder.decode(value, { stream: true });
+          const partialResult = decoder.decode(value, { stream: true });
+          result += partialResult;
+          
+          setTextareaContent((previous) => previous + partialResult);
         }
       }
-      result += decoder.decode(); // Decodifica cualquier fragmento restante
+      result += decoder.decode(); 
+      setPdfContent(result);
 
-      console.log("Resultado del stream:", result);
-      // Aquí puedes hacer lo que necesites con 'result'
-      // Por ejemplo, actualizar el estado del componente:
       setValue("resultContent", result);
       setPdfContent(result);
       reset({ promptContent: "" });
 
+      const okrResponse = await fetch("/api/okr", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: data.promptContent,
+          userId: session.user.id, 
+          result: result, 
+        }),
+      });
+
+      if (!okrResponse.ok) {
+        throw new Error(`Error al crear OKR: ${okrResponse.status}`);
+      }
     } catch (error) {
       console.error("Error en la respuesta de la API:", error);
     } finally {
@@ -78,10 +91,11 @@ export default function CreateOkr() {
       <div className="flex justify-center items-center w-full mt-5 my-3">
         <textarea
           {...register("resultContent")}
-          className="textarea textarea-bordered bg-custom-light-sky-blue  border-blue-500 border-1  w-[90%] "
+          className="textarea textarea-bordered bg-custom-light-sky-blue border-blue-500 border-1 w-[90%]"
           placeholder="OKRs IA hizo estos objetivos para ti:"
           rows="11"
           readOnly
+          value={textareaContent} 
         ></textarea>
       </div>
       <div className="flex justify-end items-center mr-16 mb-2">
