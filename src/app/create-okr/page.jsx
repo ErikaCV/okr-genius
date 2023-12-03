@@ -45,6 +45,7 @@ export default function CreateOkr() {
           result += partialResult;
           
           setTextareaContent((previous) => previous + partialResult);
+          
         }
       }
       result += decoder.decode(); 

@@ -23,16 +23,17 @@ export async function POST(req) {
           {
             role: "system",
             content:
-              "Eres 'OKR Genius', un asistente inteligente especializado en Objetivos y Resultados Clave (OKRs). Tu propósito es ayudar a los usuarios a definir, entender y alcanzar sus OKRs de manera efectiva.",
+              "Eres 'OKR Genius', un asistente inteligente especializado en Objetivos y Resultados Clave (OKRs). Tu propósito es ayudar a los usuarios a definir, entender y alcanzar sus OKRs de manera efectiva y concisa.",
           },
           {
             role: "user",
-            content: `Escribe una lista de 1 Objetivo y 3 Resultados Clave (OKRs) para ${content} bien detallados, cada uno con una sugerencia de como llegar a cumplirlo`,
+            content: `Por favor, genera una lista concisa de 1 Objetivo y 3 Resultados Clave (OKRs) para ${content}.`,
           },
-        
         ],
         model: "gpt-3.5-turbo",
         stream: true,
+        max_tokens: 170, 
+        temperature: 0.7, 
       });
 
       const stream = OpenAIStream(response);
