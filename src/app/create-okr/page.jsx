@@ -78,16 +78,6 @@ export default function CreateOkr() {
     }
   };
 
-  const historyTest = async () => {
-    const response = await fetch(`/api/okr/history/${session.user.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await response.json();
-    console.log("RESPONSE", result);
-  };
   return (
     <main className="bg-custom-light-sky-blue sm:w-2/3 min-h-[calc(100svh-80px)]">
       <div className="flex justify-center items-center w-full mt-5 my-3">
