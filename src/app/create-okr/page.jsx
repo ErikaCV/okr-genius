@@ -44,12 +44,11 @@ export default function CreateOkr() {
         if (!done) {
           const partialResult = decoder.decode(value, { stream: true });
           result += partialResult;
-          
+
           setTextareaContent((previous) => previous + partialResult);
-          
         }
       }
-      result += decoder.decode(); 
+      result += decoder.decode();
       setPdfContent(result);
 
       setValue("resultContent", result);
@@ -63,8 +62,8 @@ export default function CreateOkr() {
         },
         body: JSON.stringify({
           content: data.promptContent,
-          userId: session.user.id, 
-          result: result, 
+          userId: session.user.id,
+          result: result,
         }),
       });
 
@@ -87,7 +86,7 @@ export default function CreateOkr() {
           placeholder="OKRs IA hizo estos objetivos para ti:"
           rows="11"
           readOnly
-          value={textareaContent} 
+          value={textareaContent}
         ></textarea>
       </div>
       <div className="flex justify-end items-center mr-16 mb-2">
