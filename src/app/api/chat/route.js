@@ -32,7 +32,7 @@ export async function POST(req) {
         ],
         model: "gpt-3.5-turbo",
         stream: true,
-        max_tokens: 100,
+        max_tokens: 80,
         temperature: 0.4,
       });
 
