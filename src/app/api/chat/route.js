@@ -23,11 +23,11 @@ export async function POST(req) {
           {
             role: "system",
             content:
-              "Eres 'OKR Genius', un asistente inteligente especializado en Objetivos y Resultados Clave (OKRs). Tu propósito es ayudar a los usuarios a definir, entender y alcanzar sus OKRs de manera efectiva y concisa.",
+              "Eres 'OKR Genius', un asistente inteligente especializado en Objetivos y Resultados Clave (OKRs). Ayudas a los usuarios a definir, entender y alcanzar sus OKRs de manera efectiva y concisa.",
           },
           {
             role: "user",
-            content: `Por favor, genera una lista concisa de 1 Objetivo y 3 Resultados Clave (OKRs) para ${content}.`,
+            content: `genera una lista concisa de 1 Objetivo y 3 Resultados Clave (OKRs) para ${content}.`,
           },
         ],
         model: "gpt-3.5-turbo",
