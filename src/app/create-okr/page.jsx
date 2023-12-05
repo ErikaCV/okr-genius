@@ -17,9 +17,8 @@ export default function CreateOkr() {
   const [textareaContent, setTextareaContent] = useState("");
 
   const onSubmit = async (data) => {
-    setTextareaContent(""); // Limpiar el contenido anterior
-    setIsLoading(true);     // Establecer el estado de carga
-  
+    setTextareaContent("");
+    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:5000/chat", {
         method: "POST",
@@ -28,21 +27,55 @@ export default function CreateOkr() {
         },
         body: JSON.stringify({ content: data.promptContent }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
-  
-      const data2 = await response.json();
-      console.log(data2); // Si quieres seguir viendo la respuesta en la consola
-  
-      // Actualizar el contenido del textarea con la respuesta de la API
-      setTextareaContent(data2.choices[0].message.content); // Asumiendo que esta es la estructura de tu respuesta
-  
+
+      const data2 = await response.json()
+      console.log(data2)
+      // let result = "";
+      // const reader = response.body.getReader();
+      // const decoder = new TextDecoder("utf-8");
+
+      // let isDone = false;
+      // while (!isDone) {
+      //   const { done, value } = await reader.read();
+      //   isDone = done;
+
+      //   if (!done) {
+      //     const partialResult = decoder.decode(value, { stream: true });
+      //     result += partialResult;
+
+      //     setTextareaContent((previous) => previous + partialResult);
+      //   }
+      // }
+      // result += decoder.decode();
+      // setPdfContent(result);
+
+      // setValue("resultContent", result);
+      // setPdfContent(result);
+      // reset({ promptContent: "" });
+
+      // const okrResponse = await fetch("/api/okr", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     content: data.promptContent,
+      //     userId: session.user.id,
+      //     result: result,
+      //   }),
+      // });
+
+      // if (!okrResponse.ok) {
+      //   throw new Error(`Error al crear OKR: ${okrResponse.status}`);
+      // }
     } catch (error) {
       console.error("Error en la respuesta de la API:", error);
     } finally {
-      setIsLoading(false);  // Quitar el estado de carga
+      setIsLoading(false);
     }
   };
 
