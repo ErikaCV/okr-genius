@@ -4,6 +4,8 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import openai from "@/utils/openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
+// export const runtime = "edge"
+
 export async function POST(req) {
   const session = await getServerSession(authOptions);
   const { content } = await req.json();
@@ -32,8 +34,8 @@ export async function POST(req) {
         ],
         model: "gpt-3.5-turbo",
         stream: true,
-        max_tokens: 60,
-        temperature: 0.4,
+        max_tokens: 120,
+        temperature: 0.7,
       });
 
       const stream = OpenAIStream(response);
