@@ -64,6 +64,8 @@ export default function CreateOkr() {
           content: data.promptContent,
           userId: session.user.id,
           result: result,
+          priority: "Baja",
+          state: "Por realizar",
         }),
       });
 
