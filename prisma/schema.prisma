@@ -31,11 +31,23 @@ model PasswordResetToken {
   userId Int
 }
 
-model Okr{
-  id  Int @id @default(autoincrement())
-  content String
-  result String
-  userId Int
-  createdAt DateTime @default(now())
-  user    User    @relation(fields: [userId], references: [id])
+model Okr {
+  id        Int         @id @default(autoincrement())
+  content   String
+  result    String
+  userId    Int
+  // priority  String      
+  // state     String      
+  createdAt DateTime    @default(now())
+  user      User        @relation(fields: [userId], references: [id])
+  suggestions Suggestions[]
+}
+
+model Suggestions {
+  id          Int      @id @default(autoincrement())
+  content     String 
+  priority    String
+  state       String
+  okrId       Int
+  okr         Okr      @relation(fields: [okrId], references: [id])
 }
