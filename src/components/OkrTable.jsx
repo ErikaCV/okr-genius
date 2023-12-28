@@ -1,27 +1,33 @@
+"use client"
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useCallback } from 'react';
 import MyDocument from './MyDocument';
 import Image from 'next/image';
 import { v4 as uuidv4 } from "uuid";
 import downloadIcon from "@/assets/images/download-icon.png";
+import { useSession } from "next-auth/react";
 
 export default function OkrTable({ data }) {
     const [expandedRow, setExpandedRow] = useState(null);
     const [newData, setNewData] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
+    const { data: session, status } = useSession();
 
     const forceUpdate = useReducer((bool) => !bool, false)[1];
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
-            const response = await fetch('/api/okr');
+            if (status !== 'authenticated' || !session || !session.user) {
+                console.error('Usuario no autenticado o sesión no disponible');
+                return;
+            }
+            const response = await fetch(`/api/okr/${session.user.id}`);
             const results = await response.json();
-            console.log('Datos de OKR recibidos desde la API:', results);
             setNewData(results);
         } catch (error) {
             console.error('Error al obtener datos de OKR desde la API:', error);
         }
-    };
+    }, [session, status]);
 
     const fetchSuggestions = async () => {
         try {
@@ -32,10 +38,11 @@ export default function OkrTable({ data }) {
             console.error('Error al obtener datos de sugerencias desde la API:', error);
         }
     };
+
     useEffect(() => {
         fetchSuggestions();
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     const handleRowClick = (index) => {
         if (expandedRow === index) {
@@ -129,8 +136,8 @@ export default function OkrTable({ data }) {
                             >
                                 <td className="py-1 sm:w-1/2">
                                     <div className="flex flex-row sm:flex-row items-start sm:items-center ">
-                                        <span>{item.content}</span>
-                                        <div className="mt-2 sm:mt-0 sm:hidden pl-6">
+                                        <p className='w-full text-center'>{item.content}</p>
+                                        <div className="mt-2 sm:mt-0 sm:hidden pl-6 ">
                                             <PDFDownloadLink
                                                 document={<MyDocument content={item.result} />}
                                                 fileName={`OKRs_${uuidv4()}.pdf`}
@@ -185,6 +192,7 @@ export default function OkrTable({ data }) {
                                             </thead>
                                             {suggestions ? suggestions
                                                 .filter(suggestion => suggestion.okrId === item.id)
+                                                .sort((a, b) => a.content.localeCompare(b.content))
                                                 .map((suggestion, sugIndex) => (
                                                     <tr key={`sug_${sugIndex}`}>
                                                         <td className="text-left pl-4">🌟{suggestion.content}</td>
