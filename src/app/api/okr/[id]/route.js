@@ -4,12 +4,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import { revalidateTag } from "next/cache";
 
-export async function GET(req, {params}) {
-  const tag = req.nextUrl.searchParams.get('tag')
-  revalidateTag(tag)
-
-  const okr = await prisma.okr.findUnique({
-    where: { id: parseInt(params.id) },
+export async function GET(req, { params }) {
+  const okr = await prisma.okr.findMany({
+    where: { userId: parseInt(params.id) },
   });
 
   if (!okr) {
@@ -19,7 +16,7 @@ export async function GET(req, {params}) {
   return NextResponse.json(okr, { status: 200 });
 }
 
-export async function PUT(req, {params}) {
+export async function PUT(req, { params }) {
   const session = getServerSession(authOptions)
   const tag = req.nextUrl.searchParams.get('tag')
   revalidateTag(tag)
@@ -37,7 +34,7 @@ export async function PUT(req, {params}) {
   return NextResponse.json(updatedOkr, { status: 200 });
 }
 
-export async function DELETE(req, {params}) {
+export async function DELETE(req, { params }) {
   const session = getServerSession(authOptions)
   const tag = req.nextUrl.searchParams.get('tag')
   revalidateTag(tag)

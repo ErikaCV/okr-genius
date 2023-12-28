@@ -38,14 +38,12 @@ export async function POST(req) {
 
     const objetivoMatch = texto.match(objetivoRegex);
     const objetivo = objetivoMatch ? objetivoMatch[1].trim() : null;
-    console.log(objetivo);
 
     const sugerenciasMatches = Array.from(texto.matchAll(sugerenciasRegex), match => ({
       sugerencia: match[1].trim(),
       priority: "Baja",
       state: "Por hacer"
     }));
-    console.log(sugerenciasMatches);
     const newOkr = await prisma.okr.create({
       data: {
         content,
@@ -75,28 +73,3 @@ export async function POST(req) {
   }
 }
 
-// export async function PATCH(req, {params})
-// {
-//   const session = await getServerSession(authOptions);
-//   const { priority, state } = await req.json();
-//   const { id } = params.id
-//   console.log("ESTADO Y PRIORIDAD",state, priority);
-//   console.log(id);
-//   if (!session || !session.user) {
-//     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-//   }
-
-//   try {
-//     const updatedOkr = await prisma.okr.update({
-//       where: {
-//         id: id
-//       },
-//       data:{
-//         priority: priority,
-//         state: state
-//       }
-//     })
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
