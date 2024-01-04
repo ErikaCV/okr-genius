@@ -1,7 +1,7 @@
 import React from "react";
 import OkrTable from "@/components/OkrTable";
 
-export const revalidate = 0
+export const revalidate = 4
 
 export default function Objective() {
   return (
