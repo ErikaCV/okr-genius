@@ -26,8 +26,6 @@ export default withAuth(
       console.log("pasa por isApiEndPoint");
     }
     return NextResponse.next();
-
-    return NextResponse.next();
   },
   {
     callbacks: {

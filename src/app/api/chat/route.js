@@ -27,7 +27,7 @@ export async function POST(req) {
           },
           {
             role: "user",
-            content: `Escribe una lista de 1 Objetivo y 3 Resultados Clave (OKRs) para ${content} de forma resumida pero concisa, cada uno con una sugerencia de como llegar a cumplirlo. Con la siguiente estructura: Objetivo: "Aqui irá el titulo del okr", y por cada resultado clave siempre lo listarás poniendo por ej Resultado 1: - Sugerencia`,
+            content: `Escribe una lista de 1 Objetivo y 2 Resultados Clave (OKRs) para ${content} de forma resumida pero concisa, cada uno con una sugerencia de como llegar a cumplirlo. Con la siguiente estructura: Objetivo: "Aqui irá el titulo del okr", y por cada resultado clave siempre lo listarás poniendo por ej Resultado 1: - Sugerencia`,
           },
         
         ],
