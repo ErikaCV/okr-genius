@@ -21,7 +21,7 @@ export default function OkrTable({ data }) {
         console.error("Usuario no autenticado o sesión no disponible");
         return;
       }
-      const response = await fetch(`/api/okr/${session.user.id}`, { cache: 'no-store' });
+      const response = await fetch(`/api/okr/${session.user.id}`);
       const results = await response.json();
       setNewData(results);
     } catch (error) {
