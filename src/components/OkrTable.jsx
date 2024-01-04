@@ -12,77 +12,83 @@ export default function OkrTable() {
   const [newData, setNewData] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const { data: session, status } = useSession();
-
-  const fetchData = useCallback(async () => {
-    if (status !== "authenticated" || !session || !session.user) {
-      console.error("Usuario no autenticado o sesión no disponible");
-      return;
-    }
-    const response = await fetch(`/api/okr/${session.user.id}`);
-    const results = await response.json();
-    setNewData(results);
-  }, [session, status]);
-
-  const fetchSuggestions = useCallback(async () => {
-    const response = await fetch("/api/suggestions", { cache: 'no-store' });
-    const result = await response.json();
-    setSuggestions(result);
-  }, []);
-
-  const updateData = useCallback(async () => {
-    await fetchData();
-    await fetchSuggestions();
-  }, [fetchData, fetchSuggestions]);
-
-  useEffect(() => {
-    updateData();
-  }, [updateData]);
+  const dateFormatter = (date) => {
+    const fecha = new Date(date);
+  
+    const day = fecha.getDate();
+    const month = fecha.getMonth() + 1; // Los meses en JavaScript comienzan en 0
+    const year = fecha.getFullYear();
+    const hours = fecha.getHours();
+    const minutes = fecha.getMinutes();
+  
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+    const formattedHours = hours < 10 ? `0${hours}` : hours;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  
+    return `${formattedDay}/${formattedMonth}/${year} ${formattedHours}:${formattedMinutes}`;
+  };
 
   const handleRowClick = (index) => {
     setExpandedRow(expandedRow === index ? null : index);
   };
-
-  const dateFormatter = (date) => {
-    let fecha = new Date(date);
-    let day = fecha.getDate();
-    let month = fecha.getMonth() + 1;
-    let year = fecha.getFullYear();
-    let hours = fecha.getHours();
-    let min = fecha.getMinutes();
-    let formattedHours = (hours < 10 ? "0" : "") + hours;
-    let formattedMinutes = (min < 10 ? "0" : "") + min;
-    return `${day}/${month < 10 ? "0" : ""}${month}/${year} ${formattedHours}:${formattedMinutes}`;
-  };
-
-  const handlePriorityChange = async (event, sugerenciaId) => {
-    try {
-      const response = await fetch(`/api/suggestions/${sugerenciaId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priority: event.target.value }),
-      });
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
+  // Fetch OKR data
+  const fetchData = useCallback(async () => {
+    if (status === 'authenticated' && session && session.user) {
+      try {
+        const response = await fetch(`/api/okr/${session.user.id}`);
+        const results = await response.json();
+        setNewData(results);
+      } catch (error) {
+        console.error('Error fetching OKR data:', error);
       }
-      await updateData();
-    } catch (error) {
-      console.error("Error al actualizar la prioridad en el backend:", error);
     }
+  }, [session, status]);
+
+  // Fetch suggestions
+  const fetchSuggestions = useCallback(async () => {
+    try {
+      const response = await fetch('/api/suggestions', { cache: 'no-store' });
+      const results = await response.json();
+      setSuggestions(results);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+    }
+  }, []);
+
+  // Load data on mount and on session change
+  useEffect(() => {
+    fetchData();
+    fetchSuggestions();
+  }, [fetchData, fetchSuggestions]);
+
+  // Handle priority change
+  const handlePriorityChange = async (event, suggestionId) => {
+    const priority = event.target.value;
+    await updateSuggestion(suggestionId, { priority });
   };
 
-  const handleStateChange = async (event, sugerenciaId) => {
+  // Handle state change
+  const handleStateChange = async (event, suggestionId) => {
+    const state = event.target.value;
+    await updateSuggestion(suggestionId, { state });
+  };
+
+  // Update suggestion
+  const updateSuggestion = async (suggestionId, data) => {
     try {
-      const response = await fetch(`/api/suggestions/${sugerenciaId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ state: event.target.value }),
+      const response = await fetch(`/api/suggestions/${suggestionId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
       if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
+        throw new Error(`HTTP error: ${response.status}`);
       }
-      await updateData();
+      await fetchData();
+      await fetchSuggestions();
     } catch (error) {
-      console.error("Error al actualizar el estado en el backend:", error);
+      console.error('Error updating suggestion:', error);
     }
   };
 
