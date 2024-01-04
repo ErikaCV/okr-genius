@@ -83,7 +83,7 @@ export default function OkrTable({ data }) {
 
   const handlePriorityChange = async (event, sugerenciaId) => {
     try {
-      const response = await fetch(`/api/suggestions/${sugerenciaId}`, {
+      const response = await fetch(`/api/suggestions/${sugerenciaId}`,  { cache: 'no-store' },  {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
