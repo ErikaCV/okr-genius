@@ -21,7 +21,7 @@ export default function OkrTable({ data }) {
         console.error("Usuario no autenticado o sesión no disponible");
         return;
       }
-      const response = await fetch(`/api/okr/${session.user.id}`);
+      const response = await fetch(`/api/okr/${session.user.id}`, { cache: 'no-store' });
       const results = await response.json();
       setNewData(results);
     } catch (error) {
@@ -31,7 +31,7 @@ export default function OkrTable({ data }) {
 
   const fetchSuggestions = async () => {
     try {
-      const response = await fetch("/api/suggestions", { cache: 'no-store' });
+      const response = await fetch("/api/suggestions");
       const result = await response.json();
       setSuggestions(result);
     } catch (error) {
