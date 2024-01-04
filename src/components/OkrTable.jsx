@@ -31,7 +31,7 @@ export default function OkrTable({ data }) {
 
   const fetchSuggestions = async () => {
     try {
-      const response = await fetch("/api/suggestions");
+      const response = await fetch("/api/suggestions", { cache: 'no-store' });
       const result = await response.json();
       setSuggestions(result);
     } catch (error) {
