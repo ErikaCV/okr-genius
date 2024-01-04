@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import downloadIcon from "@/assets/images/download-icon.png";
 import { useSession } from "next-auth/react";
 
+export const dynamic = 'force-dynamic'
+
 export default function OkrTable({ data }) {
   const [expandedRow, setExpandedRow] = useState(null);
   const [newData, setNewData] = useState([]);

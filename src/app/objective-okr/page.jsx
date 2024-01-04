@@ -1,7 +1,7 @@
 import React from "react";
 import OkrTable from "@/components/OkrTable";
 
-export const revalidate = 4
+export const dynamic = 'force-dynamic'
 
 export default function Objective() {
   return (
