@@ -1,6 +1,6 @@
 "use client";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import React, { useState, useEffect, useReducer, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import MyDocument from "./MyDocument";
 import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
@@ -13,33 +13,20 @@ export default function OkrTable({ data }) {
   const [suggestions, setSuggestions] = useState([]);
   const { data: session, status } = useSession();
 
-  const forceUpdate = useReducer((bool) => !bool, false)[1];
-
   const fetchData = useCallback(async () => {
-    try {
-      if (status !== "authenticated" || !session || !session.user) {
-        console.error("Usuario no autenticado o sesión no disponible");
-        return;
-      }
-      const response = await fetch(`/api/okr/${session.user.id}`);
-      const results = await response.json();
-      setNewData(results);
-    } catch (error) {
-      console.error("Error al obtener datos de OKR desde la API:", error);
+    if (status !== "authenticated" || !session || !session.user) {
+      console.error("Usuario no autenticado o sesión no disponible");
+      return;
     }
+    const response = await fetch(`/api/okr/${session.user.id}`);
+    const results = await response.json();
+    setNewData(results);
   }, [session, status]);
 
   const fetchSuggestions = async () => {
-    try {
-      const response = await fetch("/api/suggestions");
-      const result = await response.json();
-      setSuggestions(result);
-    } catch (error) {
-      console.error(
-        "Error al obtener datos de sugerencias desde la API:",
-        error
-      );
-    }
+    const response = await fetch("/api/suggestions");
+    const result = await response.json();
+    setSuggestions(result);
   };
 
   useEffect(() => {
@@ -48,57 +35,40 @@ export default function OkrTable({ data }) {
   }, [fetchData]);
 
   const handleRowClick = (index) => {
-    if (expandedRow === index) {
-      setExpandedRow(null);
-    } else {
-      setExpandedRow(index);
-    }
+    setExpandedRow(expandedRow === index ? null : index);
   };
 
   const dateFormatter = (date) => {
-    let fecha = new Date(date);
+    const fecha = new Date(date);
+    const day = fecha.getDate().toString().padStart(2, '0');
+    const month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const year = fecha.getFullYear();
+    const hours = fecha.getHours().toString().padStart(2, '0');
+    const minutes = fecha.getMinutes().toString().padStart(2, '0');
 
-    let day = fecha.getDate();
-    let month = fecha.getMonth() + 1;
-    let year = fecha.getFullYear();
-    let hours = fecha.getHours();
-    let min = fecha.getMinutes();
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  };
 
-    let formattedHours = (hours < 10 ? "0" : "") + hours;
-    let formattedMinutes = (min < 10 ? "0" : "") + min;
-
-    let dateFormatted =
-      day +
-      "/" +
-      (month < 10 ? "0" : "") +
-      month +
-      "/" +
-      year +
-      " " +
-      formattedHours +
-      ":" +
-      formattedMinutes;
-    return dateFormatted;
+  const updateSuggestionsState = (updatedSuggestion) => {
+    const updatedSuggestions = suggestions.map(suggestion => 
+      suggestion.id === updatedSuggestion.id ? updatedSuggestion : suggestion
+    );
+    setSuggestions(updatedSuggestions);
   };
 
   const handlePriorityChange = async (event, sugerenciaId) => {
     try {
+      const newPriority = event.target.value;
       const response = await fetch(`/api/suggestions/${sugerenciaId}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          priority: event.target.value,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priority: newPriority }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
-      }
-      forceUpdate();
-      fetchData();
-      fetchSuggestions();
+      if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+      
+      const updatedSuggestion = await response.json();
+      updateSuggestionsState(updatedSuggestion);
     } catch (error) {
       console.error("Error al actualizar la prioridad en el backend:", error);
     }
@@ -106,23 +76,17 @@ export default function OkrTable({ data }) {
 
   const handleStateChange = async (event, sugerenciaId) => {
     try {
-      const id = sugerenciaId;
-      const response = await fetch(`/api/suggestions/${id}`, {
+      const newState = event.target.value;
+      const response = await fetch(`/api/suggestions/${sugerenciaId}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          state: event.target.value,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ state: newState }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
-      }
-      forceUpdate();
-      fetchData();
-      fetchSuggestions();
+      if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+      
+      const updatedSuggestion = await response.json();
+      updateSuggestionsState(updatedSuggestion);
     } catch (error) {
       console.error("Error al actualizar el estado en el backend:", error);
     }
@@ -141,57 +105,35 @@ export default function OkrTable({ data }) {
         {newData
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .map((item, index) => (
-            <React.Fragment key={index}>
+            <React.Fragment key={uuidv4()}>
               <tr
                 onClick={() => handleRowClick(index)}
-                className={`${
-                  expandedRow === index ? "bg-blue-200" : "hover:bg-gray-100"
-                } cursor-pointer transition-all`}
+                className={`${expandedRow === index ? "bg-blue-200" : "hover:bg-gray-100"} cursor-pointer transition-all`}
               >
                 <td className="py-1 sm:w-1/2">
                   <div className="flex flex-row sm:flex-row items-start sm:items-center ">
                     <p className="w-full text-center">{item.content}</p>
-                    <div className="mt-2 sm:mt-0 sm:hidden pl-6 ">
+                    <div className="mt-2 sm:mt-0 sm:hidden pl-6">
                       <PDFDownloadLink
                         document={<MyDocument content={item.result} />}
                         fileName={`OKRs_${uuidv4()}.pdf`}
                       >
-                        {({ blob, url, loading, error }) =>
-                          loading ? (
-                            <span>Loading...</span>
-                          ) : (
-                            <Image
-                              src={downloadIcon}
-                              alt="download-icon"
-                              width={20}
-                              height={20}
-                            />
-                          )
+                        {({ loading }) =>
+                          loading ? "Loading..." : <Image src={downloadIcon} alt="download-icon" width={20} height={20} />
                         }
                       </PDFDownloadLink>
                     </div>
                   </div>
                 </td>
-                <td className="py-1 hidden sm:table-cell sm:w-1/4">
-                  {dateFormatter(item.createdAt)}
-                </td>
-                <td className="hidden sm:table-cell sm:w-1/4 ">
+                <td className="py-1 hidden sm:table-cell sm:w-1/4">{dateFormatter(item.createdAt)}</td>
+                <td className="hidden sm:table-cell sm:w-1/4">
                   <div className="flex justify-center">
                     <PDFDownloadLink
                       document={<MyDocument content={item.result} />}
                       fileName={`OKRs_${uuidv4()}.pdf`}
                     >
-                      {({ blob, url, loading, error }) =>
-                        loading ? (
-                          <span>Loading...</span>
-                        ) : (
-                          <Image
-                            src={downloadIcon}
-                            alt="download-icon"
-                            width={20}
-                            height={20}
-                          />
-                        )
+                      {({ loading }) =>
+                        loading ? "Loading..." : <Image src={downloadIcon} alt="download-icon" width={20} height={20} />
                       }
                     </PDFDownloadLink>
                   </div>
@@ -199,7 +141,7 @@ export default function OkrTable({ data }) {
               </tr>
               {expandedRow === index && (
                 <tr>
-                  <td colSpan="2" className="">
+                  <td colSpan="3" className="">
                     <table className="text-center w-full border-b-2">
                       <thead>
                         <tr>
@@ -208,48 +150,35 @@ export default function OkrTable({ data }) {
                           <th>Estado</th>
                         </tr>
                       </thead>
-                      {suggestions
-                        ? suggestions
-                            .filter(
-                              (suggestion) => suggestion.okrId === item.id
-                            )
-                            .sort((a, b) => a.content.localeCompare(b.content))
-                            .map((suggestion, sugIndex) => (
-                              <tr key={`sug_${sugIndex}`}>
-                                <td className="text-left pl-4">
-                                  🌟{suggestion.content}
-                                </td>
-                                <td>
-                                  <select
-                                    value={suggestion.priority}
-                                    onChange={(e) =>
-                                      handlePriorityChange(e, suggestion.id)
-                                    }
-                                  >
-                                    <option value="High">Alta</option>
-                                    <option value="Mean">Media</option>
-                                    <option value="Low">Baja</option>
-                                  </select>
-                                </td>
-                                <td>
-                                  <select
-                                    value={suggestion.state}
-                                    onChange={(e) =>
-                                      handleStateChange(e, suggestion.id)
-                                    }
-                                  >
-                                    <option value="To be done">
-                                      Por realizar
-                                    </option>
-                                    <option value="In progress">
-                                      En proceso
-                                    </option>
-                                    <option value="Done">Realizada</option>
-                                  </select>
-                                </td>
-                              </tr>
-                            ))
-                        : null}
+                      <tbody>
+                        {suggestions
+                          .filter((suggestion) => suggestion.okrId === item.id)
+                          .map((suggestion) => (
+                            <tr key={`sug_${suggestion.id}`}>
+                              <td className="text-left pl-4">🌟{suggestion.content}</td>
+                              <td>
+                                <select
+                                  value={suggestion.priority}
+                                  onChange={(e) => handlePriorityChange(e, suggestion.id)}
+                                >
+                                  <option value="High">Alta</option>
+                                  <option value="Mean">Media</option>
+                                  <option value="Low">Baja</option>
+                                </select>
+                              </td>
+                              <td>
+                                <select
+                                  value={suggestion.state}
+                                  onChange={(e) => handleStateChange(e, suggestion.id)}
+                                >
+                                  <option value="To be done">Por realizar</option>
+                                  <option value="In progress">En proceso</option>
+                                  <option value="Done">Realizada</option>
+                                </select>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
                     </table>
                   </td>
                 </tr>
