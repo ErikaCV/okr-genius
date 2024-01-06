@@ -1,6 +1,9 @@
 import React from "react";
 import OkrTable from "@/components/OkrTable";
 
+export const dynamic = 'force-dynamic'
+
+
 export default function Objective() {
   return (
     <div className="px-2 mt-5">
